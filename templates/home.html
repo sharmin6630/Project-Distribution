@@ -1,0 +1,250 @@
+<!-- <!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    /* background: linear-gradient(to right, #00FF00, #1565c0) */
+    background: linear-gradient(to right, #1565c0, #27AE60)
+}
+
+.box {
+    width: 500px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #191919;
+
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 10px 10px;
+    width: 250px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s
+}
+
+.box h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+    width: 300px;
+    border-color: #2ecc71
+}
+
+.box input[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer
+}
+
+.box input[type="submit"]:hover {
+    background: #2ecc71
+}
+
+
+    </style>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <form class="box" method="post" action="">
+                    {% csrf_token %}
+                    <h1>Login</h1>
+                    <p class="text-muted"> Please enter your email and password to login!</p>
+
+                     {% render_field form.username class="form-control" placeholder="Username" %}
+                     {% render_field form.password class="form-control" placeholder="Password" %}
+                     <label for="user_type" class="text-muted"><b>I am a : </b></label>
+                      <select id="user_type" name="user_type"  autofocus required>
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                     <!-- <label for="email" class="text-muted"><b>Email</b></label> -->
+                     <!-- <input type="text" placeholder="Enter username" name="username" required>
+                  
+                     <!-- <label for="psw" class="text-muted"><b>Password</b></label> -->
+                     <!-- <input type="password" placeholder="Enter Password" name="password" required>
+                     <input type="submit" name="" value="Login">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- <br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br> -->
+<!-- {% include "footer.html" %}
+  </body>
+</html> --> --> -->
+
+
+
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    /* background: linear-gradient(to right, #00FF00, #1565c0) */
+    background: linear-gradient(to right, #1565c0, #27AE60)
+}
+
+.box {
+    width: 500px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #191919;
+
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 10px 10px;
+    width: 250px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s
+}
+
+.box h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+    width: 300px;
+    border-color: #2ecc71
+}
+
+.box input[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer
+}
+.label {
+  color: white;
+}
+
+.box input[type="submit"]:hover {
+    background: #2ecc71
+}
+
+
+
+    </style>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <form class="box" method="post" action="">
+                    {% csrf_token %}
+                    <div class="container">
+                      <h1>Login</h1>
+                      <p class="text-muted">Please fill in this form to create an account. </p>
+                      <hr>
+                      <label for="user_type" class="text-muted"><b>I am a : </b></label>
+                      <select id="user_type" name="user_type"  autofocus required>
+                        <option value="student">Student</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                      <!-- <label for="First Name" class="text-muted"><b>First Name</b></label> -->
+                    
+                      <input type="text" placeholder="Enter Username" name="username" required>
+                  
+                      
+                  
+                      <!-- <label for="psw" class="text-muted"><b>Password</b></label> -->
+                      <input type="password" placeholder="Enter Password" name="password" required>
+                  
+                      
+                      <br>
+                      <input type="submit" name="" value="Login">
+    
+                      <!-- <div class="col-sm-12 form-group">
+                        <button class="btn btn-danger" type="danger" class="cancelbtn" value="Cancel">Cancel</button>
+                        <button class="btn btn-primary" type="success" value="Register">Register</button>
+                      </div> -->
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
+<br><br><br>
+{% include "footer.html" %}
+  </body>
+</html>
+

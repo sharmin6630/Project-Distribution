@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    /* background: linear-gradient(to right, #00FF00, #1565c0) */
+    background: linear-gradient(to right, #1565c0, #27AE60)
+}
+
+.box {
+    width: 500px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #191919;
+
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 10px 10px;
+    width: 250px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s
+}
+
+.box h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+    width: 300px;
+    border-color: #2ecc71
+}
+
+.box input[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer
+}
+
+.box input[type="submit"]:hover {
+    background: #2ecc71
+}
+
+
+    </style>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <br><br><br><br><br><br>
+    <!-- First Container -->
+<!-- Container (Contact Section) -->
+    <div id="contact" class="container bg-grey">
+        <h2 class="text-center">CONTACT</h2>
+        <div class="row">
+        <div class="col-sm-5">
+            <p><b>Contact us and we'll get back to you within 24 hours.</b></p>
+            <p><span class="glyphicon glyphicon-map-marker"></span><b>Sylhet, Bangladesh</b></p>
+            <p><span class="glyphicon glyphicon-phone"></span><b>+800 11111111</b></p>
+            <p><span class="glyphicon glyphicon-envelope"></span><b>admin@sust.edu</b></p>
+        </div>
+        <div class="col-sm-6 slideanim">
+            <div class="row">
+            <div class="col-sm-6 form-group">
+                <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+            </div>    
+            <div class="col-sm-6 form-group">
+                <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+            </div>
+            </div>
+            <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+            <div class="row">
+            <div class="col-sm-12 form-group">
+                <button class="btn btn-primary pull-right" type="submit">Send</button>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<br><br><br><br><br>
+{% include "footer.html" %}
+  </body>
+</html>
