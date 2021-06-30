@@ -20,4 +20,4 @@ The project is using Django framework and sqlite3 at the backend.
 
 - Student can create and update their profile, fill thesis/project form and give the preference list, see teachers list and view their profile
 - Teacher can create and update their profile
-- Admin can view filled forms in a table, assign supervisors, perform queries based on CGPA, see charts of students' cgpa, total students, etc.
+- Admin can view filled forms by students in a table, assign supervisors, perform queries based on CGPA, see summary charts of students' cgpa, total students, etc.
