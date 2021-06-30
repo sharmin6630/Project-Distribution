@@ -3,7 +3,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Side Navigation Bar</title>
+	<img src="{% static "image/student.png" %}" class="profile_image" alt="">
+  <h4>{{request.user.first_name}} {{request.user.first_name}}</h4>
+  <h6 style="color: rgb(255, 255, 255);">Student</h6>
 	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
@@ -68,7 +70,7 @@
     }
 
     label #sidebar_btn:hover {
-      color: #19B3D3;
+      color: #0e1f22;
     }
 
     #check:checked~.sidebar {
@@ -111,16 +113,16 @@
             <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="#"><i class="fas fa-user"></i>Profile</a></li>
             <li><a href="#"><i class="fas fa-address-card"></i>About</a></li>
-            <li><a href="#"><i class="fas fa-project-diagram"></i>portfolio</a></li>
-            <li><a href="#"><i class="fas fa-blog"></i>Blogs</a></li>
-            <li><a href="#"><i class="fas fa-address-book"></i>Contact</a></li>
-            <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
+            <li><a href="#"><i class="fas fa-project-diagram"></i>Forms</a></li>
+            <li><a href="#"><i class="fas fa-blog"></i>Search</a></li>
+            <!-- <li><a href="#"><i class="fas fa-address-book"></i>Contact</a></li> -->
+            <!-- <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li> -->
         </ul> 
-        <div class="social_media">
+        <!-- <div class="social_media">
           <a href="#"><i class="fab fa-facebook-f"></i></a>
           <a href="#"><i class="fab fa-twitter"></i></a>
           <a href="#"><i class="fab fa-instagram"></i></a>
-      </div>
+      </div> -->
     </div>
     <div class="main_content">
         <div class="header">Welcome!! Have a nice day.</div>  

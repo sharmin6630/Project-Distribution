@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    /* background: linear-gradient(to right, #00FF00, #1565c0) */
+    /* background: linear-gradient(to right, #1565c0, #27AE60) */
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+}
+
+body{
+    margin-top:20px;
+    background:#767abb;    
+}
+/*==================================================
+  Nearby People CSS
+  ==================================================*/
+
+.people-nearby .google-maps{
+  background: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid #f1f2f2;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.people-nearby .google-maps .map{
+  height: 300px;
+  width: 100%;
+  border: none;
+}
+
+.people-nearby .nearby-user{
+  padding: 20px 0;
+  border-top: 1px solid #5f5dad;
+  border-bottom: 1px solid #9e9abe;
+  margin-bottom: 20px;
+}
+
+img.profile-photo-lg{
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+}
+
+
+ </style>
+</head>
+  <body>
+    {% include "navbar profile student.html" %}
+    <br><br><br>
+	<br><br><br>
+    <div class="container">
+      <div class="row">
+          <div class="col-md-8">
+              <div class="people-nearby">
+                
+                {% for teacher, td_i  in all_teacher %}
+                <div class="nearby-user">
+                  <div class="row">
+                    <div class="col-md-2 col-sm-2">
+                      <img src="{{td_i.photos.url}}" alt="user" class="profile-photo-lg">
+                    </div>
+                    <div class="col-md-7 col-sm-7">
+                      <h5><a href="#" class="profile-link">{{teacher.first_name}} {{teacher.last_name}}</a></h5>
+                      <p>{{td_i.designation}}</p>
+                    </div>
+                    <!-- <div class="col-md-3 col-sm-3">
+                      <a class="btn btn-primary" href="see_teacher" role="button">Link</a>
+                     
+                    </div> -->
+                    <form action="{% url 'see_teacher' teacher.id %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                          <input type="submit" value="See profile" class="btn btn-primary">
+
+                    </form>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+        </div>
+    </div>
+  </div>
+  
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+	<!-- CONTENT =============================-->
+{% include "footer.html" %}
+</body>
+</html>

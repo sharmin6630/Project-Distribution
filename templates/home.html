@@ -128,7 +128,8 @@
     padding: 0;
     font-family: sans-serif;
     /* background: linear-gradient(to right, #00FF00, #1565c0) */
-    background: linear-gradient(to right, #1565c0, #27AE60)
+    /* background: linear-gradient(to right, #1565c0, #27AE60) */
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
 }
 
 .box {
@@ -208,14 +209,14 @@
                     {% csrf_token %}
                     <div class="container">
                       <h1>Login</h1>
-                      <p class="text-muted">Please fill in this form to create an account. </p>
+                      <p class="text-muted">Fill this form to Login. </p>
                       <hr>
-                      <label for="user_type" class="text-muted"><b>I am a : </b></label>
+                      <!-- <label for="user_type" class="text-muted"><b>I am a : </b></label>
                       <select id="user_type" name="user_type"  autofocus required>
                         <option value="student">Student</option>
                         <option value="teacher">Teacher</option>
                         <option value="admin">Admin</option>
-                      </select>
+                      </select> -->
                       <!-- <label for="First Name" class="text-muted"><b>First Name</b></label> -->
                     
                       <input type="text" placeholder="Enter Username" name="username" required>

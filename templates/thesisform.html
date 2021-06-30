@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #1565c0
+    /* background: whitesmoke */
+}
+
+body{
+    margin-top:200px; 
+    padding: 7%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-family: sans-serif;
+    /* margin-top: 7%; */
+    margin-bottom: 5%; 
+    /* background: #f8f8f8 */
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff); 
+}
+
+
+
+
+
+
+
+
+</style>
+  </head>
+  <body>
+    {% include "navbar profile student.html" %}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+<form class="box" method="post" action="form_save" enctype='multipart/form-data' >
+{% csrf_token %}
+<div class="row flex-lg-nowrap">
+  <div class="col">
+    <div class="row">
+      <div class="col mb-3">
+        <div class="card">
+          <div class="card-body" style="background-color:rgb(205, 214, 243)">
+            <div class="e-profile">
+              <div class="row">
+                <!-- <div class="col-12 col-sm-auto mb-3">
+                  <div class="text-center">
+                    <img src="{{user_sd.photos.url}}" class="avatar img-circle" alt="avatar" style="max-width:300px">
+                    <h6>Change Photo</h6>
+                    <input type="file" id="input_29" name="photos" class="form-upload validate[required]"
+                    data-imagevalidate="yes"
+                   data-file-accept="pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, mp3, wma, mpg, flv, avi, jpg, jpeg, png, gif"
+                   data-file-maxsize="1024" data-file-minsize="100" data-file-limit="" data-component="fileupload"
+                   required=""/>
+                  </div>
+                </div> -->
+                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                  <div class="text-center text-sm-left mb-2 mb-sm-0">
+                    <!-- <h1 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user_in.first_name}} {{user_in.last_name}}</h1> -->
+                  </div>
+                  <div class="text-center text-sm-right">
+                    <span class="badge badge-secondary">{{user_in.user_type}}</span>
+                    <!-- <div class="text-muted"><small>Joined 09 Dec 2017</small></div> -->
+                  </div>
+                </div>
+              </div>
+              <ul class="nav nav-tabs">
+                <li class="nav-item"><a href="" class="active nav-link">Thesis/Project Form</a></li>
+              </ul>
+              <div class="tab-content pt-3">
+                <div class="tab-pane active">
+                  <form class="form" novalidate="">
+                    <div class="row">
+                      <div class="col">
+                        <div class="mb-2"><b>Student Information</b></div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Student 1 Name</label>
+                              <input class="form-control" type="text" name="student_1_id" placeholder="registration no."  value="{{user_in.first_name}} {{user_in.last_name}}"  readonly>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Student 2 Name</label>
+                              <select class="custom-select" id="student_2_id" name="student_2_id" autofocus required> 
+                                <option selected>Choose...</option>
+                                {% for student in all_student %}
+                                <option value={{student.id}}>{{student.first_name}} {{student.last_name}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                              <div class="mb-2"><b>Thesis/Project Information</b></div>
+                              <div class="row">
+                                <div class="col">
+                                  <div class="form-group">
+                                    <label>Thesis/Project</label>
+                                    <select class="custom-select" id="Course" name="Course" autofocus required> 
+                                        <option selected>Choose...</option>
+                                        <option value=Thesis>Thesis</option>
+                                        <option value=Project>Project</option>
+                                      </select>
+                                  </div>
+                                </div>
+                                <div class="col">
+                                  <div class="form-group">
+                                    <label>Topic</label>
+                                    <input class="form-control" type="text" name="topic" placeholder="topic" required>
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+                              </div>
+                              <div class="row">
+                                <div class="col">
+                                  <div class="mb-2"><b>Topic Decription (Optional)</b></div>
+                                  <div class="row">
+                                    <div class="col">
+                                        <!-- <label></label> -->
+                                        <input class="form-control" type="text" name="description" placeholder="description" >
+                                    </div>
+                                    </div>
+                                    </div>
+                                    </div>
+
+                              <div class="row">
+                                <div class="col">
+                                    <br>
+                                  <div class="mb-2"><b>Supervisor Choice</b></div>
+                                  <div class="row">
+                                    <div class="col">
+                                        <label>Supervisor 1</label>
+                                        <select class="custom-select" id="supervisor_1" name="supervisor_1" autofocus required> 
+                                            <option selected>Choose...</option>
+                                            {% for teacher in all_teacher %}
+                                            <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
+                                            {% endfor %}
+                                          </select>
+                                    </div>
+                                    <div class="col">
+                                        <label>Supervisor 2</label>
+                                        <select class="custom-select" id="supervisor_2" name="supervisor_2" autofocus required> 
+                                            <option selected>Choose...</option>
+                                            {% for teacher in all_teacher %}
+                                            <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
+                                            {% endfor %}
+                                          </select>
+                                    </div>
+                                    <div class="col">
+                                        <label>Supervisor 3</label>
+                                        <select class="custom-select" id="supervisor_3" name="supervisor_3" autofocus required> 
+                                            <option selected>Choose...</option>
+                                            {% for teacher in all_teacher %}
+                                            <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
+                                            {% endfor %}
+                                          </select>
+                                    </div>
+                                    <div class="col">
+                                        <label>Supervisor 4</label>
+                                        <select class="custom-select" id="supervisor_4" name="supervisor_4" autofocus required> 
+                                            <option selected>Choose...</option>
+                                            {% for teacher in all_teacher %}
+                                            <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
+                                            {% endfor %}
+                                          </select>
+                                    </div>
+                                    <div class="col">
+                                        <label>Supervisor 5</label>
+                                        <select class="custom-select" id="supervisor_5" name="supervisor_5" autofocus required> 
+                                            <option selected>Choose...</option>
+                                            {% for teacher in all_teacher %}
+                                            <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
+                                            {% endfor %}
+                                          </select>
+                                    </div>
+                                  </div>
+                                  </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col">
+                                        <br>
+                                      <div class="mb-2"><b>External (Optional)</b></div>
+                                      <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                              <label>External Supervisor</label>
+                                              <input class="form-control" type="text" name="external" placeholder="external" >
+                                            </div>
+                                          </div>
+                                        </div>
+                                        </div>
+                                        </div>
+
+        
+
+                      <div style="text-align: left">
+                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                      </div>
+                  </form>
+                </form>
+
+                </div>
+  </body>
+</html>

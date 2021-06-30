@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+<head>
+    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+
+/* body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #1565c0
+    background: whitesmoke 
+} */
+
+body{
+    margin-top:200px; 
+    padding: 7%;
+    margin-left: 5%;
+    font-family: sans-serif;
+    border-radius: 20px;
+    /* margin-top: 7%; */
+    margin-bottom: 5%; 
+    /* background: -webkit-linear-gradient(left, #aecdd6, #aecdd6); */
+    background: linear-gradient(left, #3931af, #00c6ff);
+
+}
+/* .filterable {
+    margin-top: 15px;
+}
+.filterable .panel-heading .pull-right {
+    margin-top: -20px;
+}
+.filterable .filters input[disabled] {
+    background-color: transparent;
+    border: none;
+    cursor: auto;
+    box-shadow: none;
+    padding: 0;
+    height: auto;
+}
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]::-moz-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]:-ms-input-placeholder {
+    color: #333;
+}
+
+.bootstrap-table .table thead > tr.filter > th{    
+    background-color: #fff;
+    border-bottom-width: 2px;
+    vertical-align: top;
+}
+.bootstrap-table .table thead > tr.filter > th .filter-inner{
+    padding: 10px 18px;
+} */
+
+table.table-fit {
+    width: auto !important;
+    table-layout: auto !important;
+}
+table.table-fit thead th, table.table-fit tfoot th {
+    width: auto !important;
+}
+table.table-fit tbody td, table.table-fit tfoot td {
+    width: auto !important;
+}
+
+
+</style>
+  </head>
+  <body>
+    {% include "navbar profile admin.html" %}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <form  role="search" method="get" action="filter_form">
+      
+      <div class="input-group" >
+        <input type="number" step="any"  class="form-control" placeholder="Filter based on major cgpa ex. 3.75" name="q" value="{{ request.GET.q }}" required>
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+   </form>
+
+    <br>
+    <br>
+    <br>
+      
+    <table class="table table-striped">
+        <th scope="row">Student </th>
+        <th scope="row">Data</th>
+          <tr>
+            <!-- <th scope="col">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                />
+              </div>
+            </th> -->
+            <th scope="col">id</th>
+            <th scope="col">Student_Name_1</th>
+            <th scope="col">Registration_1.</th>
+            <th scope="col">Major_CGPA_1</th>
+            <th scope="col">Student_Name_2</th>
+            <th scope="col">Registration_2.</th>
+            <th scope="col">Major_CGPA_2</th>
+            <th scope="col">Thesis/Project</th>
+            <th scope="col">Supervisor_Name_1</th>
+            <th scope="col">Supervisor_Name_2</th>
+            <th scope="col">Supervisor_Name_3</th>
+            <th scope="col">Supervisor_Name_4</th>
+            <th scope="col">Supervisor_Name_5</th>
+            <th scope="col">External</th>
+            <th scope="col">Assign_Supervisor</th>
+            <!-- <th scope="col">Approve_External</th> -->
+            <th scope="col">Action</th>
+
+
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in all_form %}
+          <tr>
+            <!-- <th scope="row">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                />
+              </div>
+            </th> -->
+            <!-- id -->
+            <td>{{record.id}}</td>
+            <!-- Student 1 -->
+            <td>{{record.student_1_name}}</td>
+            <!-- Student 1 reg -->
+            <td>{{record.student_1_id_id}}</td>
+            <!-- Student 1 cg -->
+            <td>{{record.student_1_majorcg}}</td>
+            <!-- Student 2 -->
+            <td>{{record.student_2_name}}</td>
+            <!-- Student 2 reg-->
+            <td>{{record.student_2_id}}</td>
+            <!-- Student 2 cg -->
+            <td>{{record.student_2_majorcg}}</td>
+            <!-- Topic -->
+            <td>{{record.Course}}</td>
+            <!-- Choice 1 -->
+            <td>{{record.supervisor_1_name}}</td>
+            <!-- Choice 2 -->
+            <td>{{record.supervisor_2_name}}</td>
+            <!-- Choice 3 -->
+            <td>{{record.supervisor_3_name}}</td>
+            <!-- Choice 4 -->
+            <td>{{record.supervisor_4_name}}</td>
+            <!-- Choice 5 -->
+            <td>{{record.supervisor_5_name}}</td>
+            <!-- External -->
+            <td>{{record.external}}</td>
+            
+
+
+            <!-- Approve -->
+            <!-- <td>
+              <select class="custom-select"  name="assigned_external" autofocus required> 
+                  <option selected>{{record.assigned_external}}</option>
+                  <option value={{record.external}}>Approve</option>
+                  <option value="N/A">Denied</option>
+                </select>
+           </td> -->
+           <form action="{% url 'form_approve' record.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <!-- Assign Select -->
+            <td>
+                <select class="custom-select"  name="assigned_supervisor_id" autofocus required> 
+                    <option selected>{{record.action}}</option>
+                    {% for teacher in all_teacher %}
+                    <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
+                    {% endfor %}
+                  </select>
+            </td>  
+              <td>
+                <input type="submit" value={{record.action}} class="btn btn-primary">
+              </td>
+            </form>
+        </tr>
+        {% endfor %}
+          
+        </tbody>
+      </table>
+    
+            
+  </body>
+</html>

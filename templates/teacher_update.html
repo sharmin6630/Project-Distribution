@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+/* body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #1565c0
+  
+} */
+
+body{
+    margin-top:200px; 
+    padding: 7%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-family: sans-serif;
+    border-radius: 20px;
+    /* margin-top: 7%; */
+    margin-bottom: 5%; 
+    /* background: #f8f8f8 */
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff); 
+}
+
+
+
+
+</style>
+  </head>
+  <body>
+    {% include "navbar profile teacher.html" %}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+<form class="box" method="post" action="teacher_save" enctype='multipart/form-data'>
+{% csrf_token %}
+<div class="row flex-lg-nowrap">
+  <div class="col">
+    <div class="row">
+      <div class="col mb-3">
+        <div class="card">
+          <div class="card-body" style="background-color:rgb(205, 214, 243)">
+            <div class="e-profile">
+              <div class="row">
+                <div class="col-12 col-sm-auto mb-3">
+                  <div class="text-center">
+                    <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" class="avatar img-circle" alt="avatar"> -->
+                    <img src="{{user_sd.photos.url}}" class="avatar img-circle" alt="avatar" width="300" height="250">
+                    <h6>Change Photo</h6>
+                    <input type="file" id="input_29" name="photos" class="form-upload validate[required]"
+                    data-imagevalidate="yes"
+                   data-file-accept="pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, mp3, wma, mpg, flv, avi, jpg, jpeg, png, gif"
+                   data-file-maxsize="1024" data-file-minsize="100" data-file-limit="" data-component="fileupload" required=""/>
+                  </div>
+                </div>
+                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                  <div class="text-center text-sm-left mb-2 mb-sm-0">
+                    <h1 class="pt-sm-2 pb-1 mb-0 text-nowrap">
+                      <span class="badge badge-secondary">{{user_in.first_name}} {{user_in.last_name}}</span>
+                      <!-- {{user_in.first_name}} {{user_in.last_name}} -->
+                    </h1>
+                  </div>
+                  <div class="text-center text-sm-right">
+            
+                    <span class="badge badge-secondary">{{user_in.user_type}}</span>
+                  
+                    <!-- <div class="text-muted"><small>Joined 09 Dec 2017</small></div> -->
+                  </div>
+                </div>
+              </div>
+              <ul class="nav nav-tabs">
+                <li class="nav-item"><a href="" class="active nav-link">Settings</a></li>
+              </ul>
+              <div class="tab-content pt-3">
+                <div class="tab-pane active">
+                  <form class="form" novalidate="">
+                    <div class="row">
+                      <div class="col">
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>First Name</label>
+                              <input class="form-control" type="text" name="first_name" placeholder="first_name"  value={{user_in.first_name}}>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Last Name</label>
+                              <input class="form-control" type="text" name="last_name" placeholder="last_name"  value={{user_in.last_name}}>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Designation</label>
+                              <input class="form-control" type="text" name="designation" placeholder="designation"  value={{user_sd.designation}}>
+                            </div>
+                          </div>
+                          <!-- <div class="col">
+                            <div class="form-group">
+                              <label>Username</label>
+                              <input class="form-control" type="text" name="username" placeholder= "Registration no." value={{request.user.username}}>
+                            </div>
+                          </div> -->
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Email</label>
+                              <input class="form-control" type="text" name="email" placeholder="user@example.com" value={{user_in.email}}>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Phone no.</label>
+                              <input class="form-control" type="text" name="mobile_no" placeholder="01734xxxxxxxx" value={{user_sd.mobile_no}}>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Blood Group</label>
+                              <input class="form-control" type="text" name="blood_group" placeholder="A+" value={{user_sd.blood_group}}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                           <div class="col">
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input class="form-control" type="text" name="address" placeholder="address" value={{user_sd.address}}>
+                            </div>
+                            </div>
+                            <!-- <div class="col">
+                            <div class="form-group">
+                                <label>CGPA (Overall)</label>
+                                <input class="form-control" type="text" name="total_cgpa" placeholder="Total CGPA" value={{user_sd.total_cgpa}} required>
+                            </div>
+                            </div> -->
+                          <!-- <div class="col">
+                            <div class="form-group">
+                              <label>CGPA (Major)</label>
+                              <input class="form-control" type="text" name="major_cgpa" placeholder="Major CGPA" value={{user_sd.major_cgpa}} required>
+                            </div>
+                          </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>SUST Profile</label>
+                                    <input class="form-control" type="text" name="sust_id" placeholder="sust_profile" value={{user_sd.sust_id}}>
+                                </div>
+                                </div>
+                                <div class="col">
+                                <div class="form-group">
+                                    <label>Google Scholar</label>
+                                    <input class="form-control" type="text" name="scholar" placeholder="google_scholar" value={{user_sd.scholar}}>
+                                </div>
+                                </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-sm-6 mb-3">
+                        <!-- <div class="mb-2"><b>Enter Current Password to apply changes</b></div> -->
+                        <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Change Password</label>
+                              <input class="form-control" type="password" name="new_password" placeholder="••••••">
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Current Password to Confirm</label> 
+                              <input class="form-control" type="password" name="password" placeholder="••••••" required>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="row">
+                          <div class="col">
+                            <div class="form-group">
+                              <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
+                              <input class="form-control" type="password" name="pssword" placeholder="••••••"></div>
+                          </div>
+                        </div> -->
+                      <div style="text-align: left">
+                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                      </div>
+                  </form>
+                </form>
+
+                </div>
+            
+  </body>
+</html>
