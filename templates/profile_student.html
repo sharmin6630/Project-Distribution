@@ -184,6 +184,9 @@ body{
     font-weight: 600;
     color: #0062cc;
 }
+.fa_custom {
+color: #0099CC
+}
 
 /* <!------ Include the above in your HEAD tag ----------> */
 
@@ -193,6 +196,7 @@ body{
     {% include "navbar profile student.html" %}
     <div class="container emp-profile">
       <form method="post">
+        {% csrf_token %}
           <div class="row">
               <div class="col-md-4">
                   <div class="profile-img">
@@ -207,7 +211,7 @@ body{
               <div class="col-md-6">
                   <div class="profile-head">
                               <h1>
-                                <span class="badge badge-secondary">{{user_in.first_name}} {{user_in.last_name}}</span>
+                                <span class="">{{user_in.first_name}} {{user_in.last_name}}</span>
                                 <!-- {{user_in.first_name}} {{user_in.last_name}} -->
                               </h1>
                               <h6>
@@ -231,12 +235,14 @@ body{
                 </p>
               </div>
           </div>
+          
           <div class="row">
               <div class="col-md-4">
                   <div class="profile-work">
                       <p>Social Links</p>
-                      <a href={{user_sd.github}}>github</a><br/>
-                      <a href={{user_sd.linkedin}}>Linkedin</a><br/>
+        
+                      <a href={{user_sd.github}}><i class="fa fa-github" style="font-size:18px"></i>github</a><br/>
+                      <a href={{user_sd.linkedin}}><i class="fa fa-linkedin-square fa_custom" style="font-size:18px"></i>Linkedin</a><br/>
                       <!-- <p>SKILLS</p>
                       <a href="">Web Designer</a><br/>
                       <a href="">Web Developer</a><br/>
