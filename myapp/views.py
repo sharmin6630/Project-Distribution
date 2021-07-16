@@ -215,11 +215,17 @@ def tasks(request):
     if request.user.is_authenticated:
         user_info = request.user
         teacher_info = CustomUser.objects.filter(user_type="teacher")
-        student_info = CustomUser.objects.filter(user_type="student")
+        pre_student_info = CustomUser.objects.filter(user_type="student")
+        student_info = []
+        for x in pre_student_info:
+            if x.id != request.user.id:
+                student_info.append(x)
+
+        #student_info = student_info.filter(id != request.user.id)
         user_sd = Student_data.objects.get(user_id_id=request.user.id)
-        s_data_all = Student_data.objects.all()
-        return render(request, 'thesisform.html', {'user_in': user_info, 'user_sd': user_sd, 
-        'all_student': student_info, 'all_teacher': teacher_info, 's_data_all': s_data_all})
+        #s_data_all = Student_data.objects.all()
+        return render(request, 'thesisform copy.html', {'user_in': user_info, 
+        'user_sd': user_sd, 'all_student': student_info, 'all_teacher': teacher_info})
     return render(request, 'home.html')
 
 def teacherclick(request):
