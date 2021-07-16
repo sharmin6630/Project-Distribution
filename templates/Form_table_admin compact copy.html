@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <!-- Required -->
+    <script src="/path/to/cdn/jquery.min.js"></script>
+    <script src="/path/to/js/jquery.tablesorter.min.js"></script>
+    <!-- Optional Widgets -->
+    <script src="/path/to/js/jquery.tablesorter.widgets.min.js"></script>
+    <title></title>
+    <style media="screen">
+body{
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    font-family: 'Calibri', sans-serif !important;
+    margin-top:200px; 
+    padding-top: 7%;
+    padding-left: 9%;
+    padding-right: 9%;
+    /* margin-left: 5%; */
+    /* font-family: sans-serif; */
+    /* border-radius: 20px; */
+    /* margin-top: 7%; */
+    margin-bottom: 5%; 
+    /* background: -webkit-linear-gradient(left, #aecdd6, #aecdd6); */
+    /* background: linear-gradient(left, #3931af, #00c6ff); */
+
+}
+body{
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    font-family: 'Calibri';
+} 
+
+.form-profile{
+    /* margin-top:90px;  */
+    /* padding: 1.5%;
+    margin-left: 0%;
+    margin-left: 0%;
+    margin-bottom: 5%; */
+    /* border-radius: 5px; */
+    /* border-radius: 0.5rem; */
+    /* background: whitesmoke; */
+    background-color:rgb(205, 214, 243);
+    /* background: #fff; */
+}
+
+/* table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+}
+
+
+table.table-fit {
+    width: auto !important;
+    table-layout: auto !important;
+}
+table.table-fit thead th, table.table-fit tfoot th {
+    width: auto !important;
+}
+table.table-fit tbody td, table.table-fit tfoot td {
+    width: auto !important;
+} */
+
+
+
+
+[data-toggle="collapse"] .fa:before {  
+  content: "\f139";
+}
+
+[data-toggle="collapse"].collapsed .fa:before {
+  content: "\f13a";
+}
+</style>
+<script>
+    $('table').tablesort();
+</script>
+</head>
+  <body>
+    {% include "navbar profile admin form.html" %}
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> -->
+    
+    <form  role="search" method="get" action="filter_form">
+      
+      <div class="input-group">
+        <input type="number" step="any"  class="form-control" placeholder="Filter based on major cgpa ex. 3.75" name="q" value="{{ request.GET.q }}" required>
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+   </form>
+
+    <br>
+    <br>
+    <br>
+    <div class="container form-profile">
+    <table id="selectedColumn" class="table table-striped" width="100%">
+        <th scope="row">Student </th>
+        <th scope="row">Data</th>
+          <tr>
+            <!-- <th scope="col">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                />
+              </div>
+            </th> -->
+            <th scope="col" ></th>
+            <th scope="col" data-column="team" data-order="desc">Team</th>
+            <!-- <th scope="col">Student_Name_1</th> -->
+            <th scope="col" data-column="name1" data-order="desc">M1</th>
+            <th scope="col" data-column="cg1" data-order="desc">CGPA_major</th>
+            <!-- <th scope="col">Student_Name_2</th> -->
+            <th scope="col" data-column="name2" data-order="desc">M2</th>
+            <th scope="col" data-column="cg2" data-order="desc">CGPA_major</th>
+            <th scope="col" data-column="course" data-order="desc">Thesis/Project</th>
+            <th scope="col" data-column="domain" data-order="desc">Domain/Topic</th>
+            <!-- <th scope="col">Supervisor_Name_1</th>
+            <th scope="col">Supervisor_Name_2</th>
+            <th scope="col">Supervisor_Name_3</th>
+            <th scope="col">Supervisor_Name_4</th>
+            <th scope="col">Supervisor_Name_5</th> -->
+            <!-- <th scope="col">External</th> -->
+            <th scope="col" data-column="supervisor" data-order="desc">Supervisor</th>
+            <th scope="col">Update_Supervisor</th>
+            <!-- <th scope="col">Approve_External</th> -->
+            <th scope="col">Action</th>
+
+
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in all_form %}
+          <tr>
+            <!-- <th scope="row">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                />
+              </div>
+            </th> -->
+            <!-- id -->
+            <td>
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne{{record.id}}" aria-expanded="false" aria-controls="collapseOne">               
+                <i class="fa" aria-hidden="true"></i>
+              </button>
+            </td>
+
+
+            <td>{{record.id}}</td>
+            <!-- Student 1 -->
+            <!-- <td>{{record.student_1_name}}</td> -->
+            <!-- Student 1 reg -->
+            <td>{{record.student_1_id_id}}</td>
+            <!-- Student 1 cg -->
+            <td>{{record.student_1_majorcg}}</td>
+            <!-- Student 2 -->
+            <!-- <td>{{record.student_2_name}}</td> -->
+            <!-- Student 2 reg-->
+            <td>{{record.student_2_id}}</td>
+            <!-- Student 2 cg -->
+            <td>{{record.student_2_majorcg}}</td>
+            <!-- Topic -->
+            <td>{{record.Course}}</td>
+            <!-- domain -->
+            <td>{{record.topic}}</td>
+            <!-- Choice 1 -->
+            <!-- <td>{{record.supervisor_1_name}}</td> -->
+            <!-- Choice 2 -->
+            <!-- <td>{{record.supervisor_2_name}}</td> -->
+            <!-- Choice 3 -->
+            <!-- <td>{{record.supervisor_3_name}}</td> -->
+            <!-- Choice 4 -->
+            <!-- <td>{{record.supervisor_4_name}}</td> -->
+            <!-- Choice 5 -->
+            <!-- <td>{{record.supervisor_5_name}}</td> -->
+            <!-- External -->
+            <!-- <td>{{record.external}}</td> -->
+
+            
+
+
+            <!-- Approve -->
+            <!-- <td>
+              <select class="custom-select"  name="assigned_external" autofocus required> 
+                  <option selected>{{record.assigned_external}}</option>
+                  <option value={{record.external}}>Approve</option>
+                  <option value="N/A">Denied</option>
+                </select>
+           </td> -->
+           <td>{{record.assigned_supervisor}}</td>
+           <form action="{% url 'form_approve' record.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <!-- Assign Select -->
+            <td>
+                <select class="custom-select"  name="assigned_supervisor_id" autofocus required> 
+                    <option value="" disabled selected>Choose..</option>
+                    {% for teacher in all_teacher %}
+                    <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
+                    {% endfor %}
+                  </select>
+            </td>  
+              <td>
+                <input type="submit" value={{record.action}} class="btn btn-primary">
+              </td>
+            </form>
+        </tr>
+
+        <tr> 
+          
+          <td id="collapseOne{{record.id}}" class="collapse" colspan="8" font-size="10" c>
+              
+              <p>Member: {{record.student_1_name}}   &emsp; Member 2: <span>{{record.student_2_name}}</span></p>
+              <p><b>Choice List:</b></p>
+              <p>Choice_1: <span>{{record.supervisor_1_name}}</span>  &emsp;  Choice_2: <span>{{record.supervisor_2_name}}</span>
+                &emsp; Choice_3: <span>{{record.supervisor_3_name}}</span></p>
+              <!-- <p><b>Choice_2:</b> <span>{{record.supervisor_2_name}}</span> </p>
+              <p><b>Choice_3:</b> <span>{{record.supervisor_3_name}}</span></p> -->
+              <p>Choice_4: <span>{{record.supervisor_4_name}}</span>  &emsp;  Choice_5: <span>{{record.supervisor_5_name}}</span>
+                &emsp;  Choice_External: <span>{{record.external}}</span></p>
+              <!-- <p><b>Choice_5:</b> <span>{{record.supervisor_5_name}}</span></p>
+              <p><b>Choice_External:</b> <span>{{record.external}}</span></p> -->
+              <p><b>Topic Description:</b> <span>{{record.description}}</span></p>
+          </td>
+        </tr>
+        {% endfor %}
+          
+        </tbody>
+      </table>
+    </div>
+    
+             
+  </body>
+</html>
