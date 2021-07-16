@@ -191,7 +191,7 @@ def adminclick(request):
     if request.user.is_authenticated:
         all_form = Form.objects.all()
         all_teacher = CustomUser.objects.filter(user_type="teacher")
-        return render(request,'form_table_admin.html', {'all_form': all_form, 'all_teacher': all_teacher})
+        return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
     else:
         return render(request,'home.html')
 
@@ -206,7 +206,7 @@ def filter_form(request):
                 if x.student_1_majorcg >= query and x.student_2_majorcg >= query:
                     all_form.append(x)
             all_teacher = CustomUser.objects.filter(user_type="teacher")
-            return render(request,'form_table_admin.html', {'all_form': all_form, 'all_teacher': all_teacher})
+            return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
     else:
         return render(request,'home.html')
 
@@ -489,7 +489,7 @@ def form_approve(request, id):
 
             all_form = Form.objects.all()
             all_teacher = CustomUser.objects.filter(user_type="teacher")
-            return render(request,'form_table_admin.html', {'all_form': all_form, 'all_teacher': all_teacher})
+            return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
     else:
         return render(request, 'home.html')
 

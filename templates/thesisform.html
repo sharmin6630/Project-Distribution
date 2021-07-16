@@ -180,7 +180,7 @@ body{
                             <div class="form-group">
                               <label>Student 2 Name</label>
                               <select class="custom-select" id="student_2_id" name="student_2_id" autofocus required> 
-                                <option selected>Choose...</option>
+                                <option value="" disabled selected>Choose...</option>
                                 {% for student in all_student %}
                                 <option value={{student.id}}>{{student.first_name}} {{student.last_name}}</option>
                                 {% endfor %}
@@ -196,7 +196,7 @@ body{
                                   <div class="form-group">
                                     <label>Thesis/Project</label>
                                     <select class="custom-select" id="Course" name="Course" autofocus required> 
-                                        <option selected>Choose...</option>
+                                        <option value="" disabled selected>Choose...</option>
                                         <option value=Thesis>Thesis</option>
                                         <option value=Project>Project</option>
                                       </select>
