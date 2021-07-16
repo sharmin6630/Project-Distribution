@@ -192,6 +192,7 @@ body{
     {% include "navbar profile admin.html" %}
     <div class="container emp-profile">
       <form method="post">
+        {% csrf_token %}
           <div class="row">
               <div class="col-md-4">
                   <div class="profile-img">
@@ -206,7 +207,7 @@ body{
               <div class="col-md-6">
                   <div class="profile-head">
                               <h1>
-                                <span class="badge badge-secondary">{{user_in.first_name}} {{user_in.last_name}}</span>
+                                <span class="">{{user_in.first_name}} {{user_in.last_name}}</span>
                                 <!-- {{user_in.first_name}} {{user_in.last_name}} -->
                               </h1>
                               <h6>
