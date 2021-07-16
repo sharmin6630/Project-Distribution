@@ -5,6 +5,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <style media="screen">
       body {
     margin: 0;
@@ -25,16 +26,103 @@ body{
     /* background: #f8f8f8 */
     background: -webkit-linear-gradient(left, #3931af, #00c6ff); 
 }
-
-
-
-
-
-
-
-
 </style>
-  </head>
+
+<script>
+  $(document).ready(function(){
+
+    var $supervisor_1_var = $("#supervisor_1");
+        $supervisor_2_var = $("#supervisor_2");
+        $supervisor_3_var = $("#supervisor_3");
+        $supervisor_4_var = $("#supervisor_4");
+        $supervisor_5_var = $("#supervisor_5");
+      $("select").on('focus', function () {
+        // Store the current value on focus and on change
+          var previous = $(this).val();
+          $supervisor_1_var.on('change', function(){
+              var selectedItem_1 = $(this).val();
+              if (selectedItem_1){
+                $supervisor_2_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_3_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_4_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_5_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+
+                $supervisor_2_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_3_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_4_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_5_var.find('option[value="' + previous + '"]').prop("disabled", false)
+              }
+          }).trigger('change');
+
+          $supervisor_2_var.on('change', function(){
+              var selectedItem_1 = $(this).val();
+              if (selectedItem_1){
+                $supervisor_1_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_3_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_4_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_5_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+
+                $supervisor_1_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_3_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_4_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_5_var.find('option[value="' + previous + '"]').prop("disabled", false)
+              }
+          }).trigger('change');
+
+          $supervisor_3_var.on('change', function(){
+              var selectedItem_1 = $(this).val();
+              if (selectedItem_1){
+                $supervisor_1_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_2_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_4_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_5_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+
+                $supervisor_1_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_2_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_4_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_5_var.find('option[value="' + previous + '"]').prop("disabled", false)
+              }
+          }).trigger('change');
+
+          $supervisor_4_var.on('change', function(){
+              var selectedItem_1 = $(this).val();
+              if (selectedItem_1){
+                $supervisor_1_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_2_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_3_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_5_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+
+                $supervisor_1_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_2_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_3_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_5_var.find('option[value="' + previous + '"]').prop("disabled", false)
+              }
+          }).trigger('change');
+
+          $supervisor_5_var.on('change', function(){
+              var selectedItem_1 = $(this).val();
+              if (selectedItem_1){
+                $supervisor_1_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_2_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_3_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+                $supervisor_4_var.find('option[value="' + selectedItem_1 + '"]').prop("disabled", true)
+
+                $supervisor_1_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_2_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_3_var.find('option[value="' + previous + '"]').prop("disabled", false)
+                $supervisor_4_var.find('option[value="' + previous + '"]').prop("disabled", false)
+              }
+          }).trigger('change');
+
+
+
+      });
+        
+  });
+  
+</script>
+
+</head>
   <body>
     {% include "navbar profile student.html" %}
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -141,7 +229,7 @@ body{
                                     <div class="col">
                                         <label>Supervisor 1</label>
                                         <select class="custom-select" id="supervisor_1" name="supervisor_1" autofocus required> 
-                                            <option selected>Choose...</option>
+                                            <option value="" disabled selected>Choose...</option>
                                             {% for teacher in all_teacher %}
                                             <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
                                             {% endfor %}
@@ -150,7 +238,7 @@ body{
                                     <div class="col">
                                         <label>Supervisor 2</label>
                                         <select class="custom-select" id="supervisor_2" name="supervisor_2" autofocus required> 
-                                            <option selected>Choose...</option>
+                                            <option value="" disabled selected>Choose...</option>
                                             {% for teacher in all_teacher %}
                                             <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
                                             {% endfor %}
@@ -159,7 +247,7 @@ body{
                                     <div class="col">
                                         <label>Supervisor 3</label>
                                         <select class="custom-select" id="supervisor_3" name="supervisor_3" autofocus required> 
-                                            <option selected>Choose...</option>
+                                            <option value="" disabled selected>Choose...</option>
                                             {% for teacher in all_teacher %}
                                             <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
                                             {% endfor %}
@@ -168,7 +256,7 @@ body{
                                     <div class="col">
                                         <label>Supervisor 4</label>
                                         <select class="custom-select" id="supervisor_4" name="supervisor_4" autofocus required> 
-                                            <option selected>Choose...</option>
+                                            <option value="" disabled selected>Choose...</option>
                                             {% for teacher in all_teacher %}
                                             <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
                                             {% endfor %}
@@ -177,7 +265,7 @@ body{
                                     <div class="col">
                                         <label>Supervisor 5</label>
                                         <select class="custom-select" id="supervisor_5" name="supervisor_5" autofocus required> 
-                                            <option selected>Choose...</option>
+                                            <option value="" disabled selected>Choose...</option>
                                             {% for teacher in all_teacher %}
                                             <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option>
                                             {% endfor %}
