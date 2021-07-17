@@ -2,13 +2,14 @@
 {% load widget_tweaks %}
 <html lang="en" dir="ltr">
   <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <meta charset="utf-8">
-    <title></title>
+    <title>Register</title>
     <style media="screen">
       body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: 'Calibri', sans-serif !important;
     /* background: linear-gradient(to right, #00FF00, #1565c0) */
     /* background: linear-gradient(to right, #1565c0, #27AE60)  */
     background: -webkit-linear-gradient(left, #3931af, #00c6ff);
@@ -52,7 +53,7 @@
 .box input[type="text"]:focus,
 .box input[type="password"]:focus {
     width: 300px;
-    border-color: #2ecc71
+    border-color: #2e72cc
 }
 
 .box input[type="submit"] {
@@ -61,7 +62,7 @@
     display: block;
     margin: 20px auto;
     text-align: center;
-    border: 2px solid #2ecc71;
+    border: 2px solid #2e72cc;
     padding: 14px 40px;
     outline: none;
     color: white;
@@ -74,7 +75,7 @@
 }
 
 .box input[type="submit"]:hover {
-    background: #2ecc71
+    background: #2e72cc;
 }
 
 
@@ -94,7 +95,7 @@
                       <p class="text-muted">Please fill in this form to create an account. </p>
                       <hr>
                       <label for="user_type" class="text-muted"><b>I am a : </b></label>
-                      <select id="user_type" name="user_type"  autofocus required>
+                      <select class="custom-select" style="width:150px" id="user_type" name="user_type"  autofocus required>
                         <option value="student">Student</option>
                         <option value="teacher">Teacher</option>
                         <option value="admin">Admin</option>
