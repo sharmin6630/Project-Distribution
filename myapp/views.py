@@ -1,5 +1,5 @@
 from os import renames
-
+from django.http import HttpResponseRedirect
 from django.http.response import JsonResponse
 from myapp.forms import *
 from django.shortcuts import render, redirect
@@ -17,7 +17,17 @@ IMAGE_FILES_TYPES = ['png', 'jpg', 'jpeg']
 
 # Create your views here.
 
-def home(request):
+
+def start(request):
+    '''
+        starting or index page
+    '''
+    return render(request, 'start.html')
+
+def login(request):
+    '''
+        authentication check, if true takes to profile
+    '''
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -29,37 +39,18 @@ def home(request):
                 print("ok2")
                 auth_login(request, user)
                 print("ok2")
-                user_info = request.user
-                if (user_info.user_type == "student"):
-                    x = Student_data.objects.filter(user_id_id=request.user.id).count()
-                    if x != 0:
-                        s_id = Student_data.objects.get(user_id_id=request.user.id)
-                        return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': s_id})
-                    else:
-                        return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': user_info})
-
-                elif (user_info.user_type == "teacher"):
-                    x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
-                    if x != 0:
-                        s_id = Teachers_data.objects.get(user_id_id=request.user.id)
-                        return render(request, 'profile_teacher.html', {'user_in': user_info, 'user_sd': s_id})
-                    else:
-                        return render(request, 'profile_teacher.html', {'user_in': user_info, 'user_sd': user_info})
-
-                elif (user_info.user_type == "admin"):
-                    return render(request, 'profile_admin_test.html', {'user_in': user_info})
+                return HttpResponseRedirect('profile')
+                
             else:
                 #messages.info(request, 'invalid credentials')
                 print("invalid")
                 return render(request, 'home.html')
         else:
             print("ok4")
-            return render(request, 'register.html')
+            return render(request, 'home.html')
     else:
         return render(request, 'home.html')
 
-# def aboutus_view(request):
-#     return render(request,'aboutus.html')
 
 def contact(request):
     # sub = forms.ContactusForm()
@@ -86,6 +77,9 @@ def contact(request):
 #     return render(request, 'home.html')
 
 def form_save(request):
+    '''
+        save thesis form data then returns to user profile
+    '''
     if request.user.is_authenticated:
         if request.method == 'POST':
             student_1_id = request.user.id
@@ -170,21 +164,15 @@ def form_save(request):
                 supervisor_3_name=supervisor_3_name, supervisor_4_name=supervisor_4_name,
                 supervisor_5_name=supervisor_5_name)
                 form_up.save()
-        user_info = request.user
-        x = Student_data.objects.filter(user_id_id=request.user.id).count()
-        if x != 0:
-            s_id = Student_data.objects.get(user_id_id=request.user.id)
-            return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': s_id})
-        else:
-            return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': user_info})
+        return HttpResponseRedirect('profile')
     else:
         return render(request, 'home.html')
 
 
-
-
-
 def about(request):
+    '''
+        takes to about page
+    '''
     return render(request,'about.html')
 
 def adminclick(request):
@@ -235,6 +223,9 @@ def studentclick(request):
     return render(request,'studentclick.html')
 
 def register(request):
+    '''
+        user registration is done and login page is loaded
+    '''
     if request.method == 'POST':
         user_type = request.POST.get('user_type')
         first_name = request.POST.get('first_name')
@@ -247,11 +238,15 @@ def register(request):
         user.set_password(password)
         user.is_active = True
         user.save()
-        return redirect('/')
+        return HttpResponseRedirect('login')
     else:
         return render(request,'register.html')
 
 def profile(request):
+    '''
+        loads profile based on user type, 
+        if not false to login page
+    '''
     if request.user.is_authenticated:
         user_info = request.user
         if (user_info.user_type == "student"):
@@ -294,7 +289,7 @@ def search(request):
 
 def logout(request):
     auth_logout(request)
-    return render(request, 'home.html')
+    return HttpResponseRedirect('login')
 
 def student_update(request):
     user_info = request.user
@@ -325,8 +320,8 @@ def student_save(request):
         photos = request.FILES["photos"]
         user = authenticate(request, username=request.user.username, password=password)
         if user is None:
-            print("not authenticated")
-            return render(request, 'profile_student.html', {'user_in': request.user})
+            print("not authenticated, no update")
+            return HttpResponseRedirect('profile')
         x = Student_data.objects.filter(user_id_id=request.user.id).count()
         if x != 0:
             exist_check = Student_data.objects.get(user_id_id=request.user.id)
@@ -355,11 +350,7 @@ def student_save(request):
         user_info.is_active = True
         user_info.save()
         x = Student_data.objects.filter(user_id_id=request.user.id).count()
-        if x != 0:
-            s_id = Student_data.objects.get(user_id_id=request.user.id)
-            return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': s_id})
-        else:
-            return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': user_info})
+        return HttpResponseRedirect('profile')
     else:
         return render(request,'home.html')
 
@@ -391,8 +382,8 @@ def teacher_save(request):
         designation = request.POST.get('designation')
         user = authenticate(request, username=request.user.username, password=password)
         if user is None:
-            print("not authenticated")
-            return render(request, 'profile_teacher.html', {'user_in': request.user})
+            print("not authenticated, no update")
+            return HttpResponseRedirect('profile')
         x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
         if x != 0:
             exist_check = Teachers_data.objects.get(user_id_id=request.user.id)
@@ -419,47 +410,15 @@ def teacher_save(request):
             user_info.set_password(new_password)
         user_info.is_active = True
         user_info.save()
-        x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
-        if x != 0:
-            s_id = Teachers_data.objects.get(user_id_id=request.user.id)
-            return render(request, 'profile_teacher.html', {'user_in': user_info, 'user_sd': s_id})
-        else:
-            return render(request, 'profile_teacher.html', {'user_in': user_info, 'user_sd': user_info})
+        return HttpResponseRedirect('profile')
     else:
         return render(request,'home.html')
 
 
-
-# def login(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user_type =  request.POST.get('user_type')
-#         user = authenticate(request, username=username, password=password, user_type=user_type)
-#         print("user_login", user, username, password, user_type)
-#         if user is not None:
-#             if user.is_active:
-#                 print("ok2")
-#                 auth_login(request, user)
-#                 print("ok2")
-#                 user_info = request.user
-#                 if (user_info.user_type == "student"):
-#                     return render(request, 'profile_student.html', {'user_in': user_info})
-#                 elif (user_info.user_type == "teacher"):
-#                     return render(request, 'profile_general.html', {'user_in': user_info})
-#                 elif (user_info.user_type == "admin"):
-#                     return render(request, 'profile_general.html', {'user_in': user_info})
-#             else:
-#                 #messages.info(request, 'invalid credentials')
-#                 print("invalid")
-#                 return render(request, 'home.html')
-#         else:
-#             print("ok4")
-#             return render(request, 'register.html')
-#     else:
-#         return render(request, 'home.html')
-
 def see_teacher(request, id):
+    '''
+        students can see the requested teacher profile
+    '''
     if request.user.is_authenticated:
         user_info = request.user
         teacher = CustomUser.objects.get(id=id)
@@ -472,6 +431,9 @@ def see_teacher(request, id):
         return render(request, 'home.html')
 
 def form_approve(request, id):
+    '''
+        students are assigned to supervisor
+    '''
     if request.user.is_authenticated:
         if request.method == 'POST':
             form_record = Form.objects.get(id=id)
@@ -486,10 +448,7 @@ def form_approve(request, id):
             form_record.assigned_supervisor = assigned_supervisor
             form_record.action = "Assigned"
             form_record.save()
-
-            all_form = Form.objects.all()
-            all_teacher = CustomUser.objects.filter(user_type="teacher")
-            return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
+            return redirect('adminclick')
     else:
         return render(request, 'home.html')
 
