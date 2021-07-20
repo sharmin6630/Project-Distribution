@@ -63,16 +63,19 @@ class Paper(models.Model):
     Published_Paper = models.CharField(null=True, blank=True, default=None, max_length=55)
     Published_Journal = models.CharField(null=True, blank=True, default=None, max_length=55)
 
-class Form(models.Model):
+
+class compact_Form(models.Model):
     # paper_id=models.AutoField(null=False,blank=False,default=None,primary_key=True)
     student_1_id = models.ForeignKey(CustomUser, default=1, on_delete=models.CASCADE)
+    student_1_username = models.CharField(null=True, blank=True, default=None, max_length=55)
     student_1_majorcg =  models.FloatField(null=True,blank=True,default=None,max_length=5)
     student_1_totalcg =  models.FloatField(null=True,blank=True,default=None,max_length=5)
     student_1_name = models.CharField(null=True, blank=True, default=None, max_length=55)
+    student_2_id = models.CharField(null=True, blank=True, default=None, max_length=55)
+    student_2_username = models.CharField(null=True, blank=True, default=None, max_length=55)
     student_2_name = models.CharField(null=True, blank=True, default=None, max_length=55)
     student_2_majorcg =  models.FloatField(null=True,blank=True,default=None,max_length=5)
     student_2_totalcg =  models.FloatField(null=True,blank=True,default=None,max_length=5)
-    student_2_id = models.CharField(null=True, blank=True, default=None, max_length=55)
     Course = models.CharField(null=True, blank=True, default=None, max_length=55)
     topic = models.CharField(null=True, blank=True, default=None, max_length=500)
     description = models.CharField(null=True, blank=True, default=None, max_length=5000)
@@ -88,6 +91,8 @@ class Form(models.Model):
     supervisor_4_name = models.CharField(null=True, blank=True, default=None, max_length=55)
     supervisor_5_name = models.CharField(null=True, blank=True, default=None, max_length=55)
     assigned_external = models.CharField(null=True, blank=True, default=None, max_length=55)
+    assigned_course = models.CharField(null=True, blank=True, default=None, max_length=55)
     assigned_supervisor = models.CharField(null=True, blank=True, default=None, max_length=55)
     assigned_supervisor_id = models.CharField(null=True, blank=True, default=None, max_length=55)
     action = models.CharField(null=True, blank=True, default="Save", max_length=55)
+
