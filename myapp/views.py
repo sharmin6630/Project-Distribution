@@ -187,7 +187,7 @@ def about(request):
     return render(request,'about.html')
 
 def adminclick(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.user_type=="admin":
         all_form = compact_Form.objects.all()
         all_teacher = CustomUser.objects.filter(user_type="teacher")
         return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
@@ -195,7 +195,7 @@ def adminclick(request):
         return render(request,'home.html')
 
 def filter_form(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.user_type=="admin":
         query = float(request.GET.get("q"))
         print(float(query))
         if query:
@@ -211,7 +211,7 @@ def filter_form(request):
 
 
 def tasks(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.user_type=="student":
         user_info = request.user
         teacher_info = CustomUser.objects.filter(user_type="teacher")
         pre_student_info = CustomUser.objects.filter(user_type="student")
@@ -284,7 +284,7 @@ def profile(request):
         return render(request, 'home.html')
 
 def search(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.user_type=="student":
         user_info = request.user
         all_teacher = CustomUser.objects.filter(user_type="teacher")
         td = []
@@ -303,125 +303,133 @@ def logout(request):
     return HttpResponseRedirect('login')
 
 def student_update(request):
-    user_info = request.user
-    x = Student_data.objects.filter(user_id_id=request.user.id).count()
-    if x != 0:
-        s_id = Student_data.objects.get(user_id_id=request.user.id)
-        return render(request, 'student_update.html', {'user_in': user_info, 'user_sd': s_id})
-    else:
-        return render(request, 'student_update.html', {'user_in': user_info, 'user_sd': user_info})
-
-def student_save(request):
-    user_info = request.user
-    print(request.method, "hihi")
-    if request.method == 'POST':
-        print(request.FILES["photos"])
-        password = request.POST.get('password')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        new_password = request.POST.get('new_password')
-        mobile_no = request.POST.get('mobile_no')
-        blood_group = request.POST.get('blood_group')
-        address = request.POST.get('address')
-        total_cgpa = request.POST.get('total_cgpa')
-        major_cgpa = request.POST.get('major_cgpa')
-        github = request.POST.get('github')
-        linkedin = request.POST.get('linkedin')
-        photos = request.FILES["photos"]
-        user = authenticate(request, username=request.user.username, password=password)
-        if user is None:
-            print("not authenticated, no update")
-            return HttpResponseRedirect('profile')
+    if request.user.is_authenticated and request.user.user_type=="student":
+        user_info = request.user
         x = Student_data.objects.filter(user_id_id=request.user.id).count()
         if x != 0:
-            exist_check = Student_data.objects.get(user_id_id=request.user.id)
-            exist_check.mobile_no=mobile_no
-            exist_check.user_id_id=user_info.id
-            exist_check.address=address
-            exist_check.blood_group=blood_group
-            exist_check.total_cgpa=total_cgpa 
-            exist_check.major_cgpa=major_cgpa 
-            exist_check.github=github
-            exist_check.linkedin=linkedin
-            exist_check.photos=request.FILES["photos"]
-            exist_check.save()
-        else:        
-            st_up = Student_data(mobile_no=mobile_no, user_id_id=user_info.id,
-            address=address, blood_group=blood_group, total_cgpa=total_cgpa, 
-            major_cgpa=major_cgpa, github=github, linkedin=linkedin, photos=request.FILES["photos"])
-            st_up.save()
-        user_info = CustomUser.objects.get(id=request.user.id)
-        user_info.first_name=first_name
-        user_info.last_name=last_name
-        user_info.email=email
-        if len(new_password) != 0:
-            print("user password updated")
-            user_info.set_password(new_password)
-        user_info.is_active = True
-        user_info.save()
-        x = Student_data.objects.filter(user_id_id=request.user.id).count()
-        return HttpResponseRedirect('profile')
+            s_id = Student_data.objects.get(user_id_id=request.user.id)
+            return render(request, 'student_update.html', {'user_in': user_info, 'user_sd': s_id})
+        else:
+            return render(request, 'student_update.html', {'user_in': user_info, 'user_sd': user_info})
+    else:
+        return render(request,'home.html')
+
+def student_save(request):
+    if request.user.is_authenticated and request.user.user_type=="student":
+        user_info = request.user
+        print(request.method, "hihi")
+        if request.method == 'POST':
+            print(request.FILES["photos"])
+            password = request.POST.get('password')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            email = request.POST.get('email')
+            new_password = request.POST.get('new_password')
+            mobile_no = request.POST.get('mobile_no')
+            blood_group = request.POST.get('blood_group')
+            address = request.POST.get('address')
+            total_cgpa = request.POST.get('total_cgpa')
+            major_cgpa = request.POST.get('major_cgpa')
+            github = request.POST.get('github')
+            linkedin = request.POST.get('linkedin')
+            photos = request.FILES["photos"]
+            user = authenticate(request, username=request.user.username, password=password)
+            if user is None:
+                print("not authenticated, no update")
+                return HttpResponseRedirect('profile')
+            x = Student_data.objects.filter(user_id_id=request.user.id).count()
+            if x != 0:
+                exist_check = Student_data.objects.get(user_id_id=request.user.id)
+                exist_check.mobile_no=mobile_no
+                exist_check.user_id_id=user_info.id
+                exist_check.address=address
+                exist_check.blood_group=blood_group
+                exist_check.total_cgpa=total_cgpa 
+                exist_check.major_cgpa=major_cgpa 
+                exist_check.github=github
+                exist_check.linkedin=linkedin
+                exist_check.photos=request.FILES["photos"]
+                exist_check.save()
+            else:        
+                st_up = Student_data(mobile_no=mobile_no, user_id_id=user_info.id,
+                address=address, blood_group=blood_group, total_cgpa=total_cgpa, 
+                major_cgpa=major_cgpa, github=github, linkedin=linkedin, photos=request.FILES["photos"])
+                st_up.save()
+            user_info = CustomUser.objects.get(id=request.user.id)
+            user_info.first_name=first_name
+            user_info.last_name=last_name
+            user_info.email=email
+            if len(new_password) != 0:
+                print("user password updated")
+                user_info.set_password(new_password)
+            user_info.is_active = True
+            user_info.save()
+            x = Student_data.objects.filter(user_id_id=request.user.id).count()
+            return HttpResponseRedirect('profile')
     else:
         return render(request,'home.html')
 
 def teacher_update(request):
-    user_info = request.user
-    x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
-    if x != 0:
-        s_id = Teachers_data.objects.get(user_id_id=request.user.id)
-        return render(request, 'teacher_update.html', {'user_in': user_info, 'user_sd': s_id})
-    else:
-        return render(request, 'teacher_update.html', {'user_in': user_info, 'user_sd': user_info})
-
-def teacher_save(request):
-    user_info = request.user
-    print(request.method, "teacher up")
-    if request.method == 'POST':
-        print(request.FILES["photos"])
-        password = request.POST.get('password')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        new_password = request.POST.get('new_password')
-        mobile_no = request.POST.get('mobile_no')
-        blood_group = request.POST.get('blood_group')
-        address = request.POST.get('address')
-        sust_id = request.POST.get('sust_id')
-        scholar = request.POST.get('scholar')
-        photos = request.FILES["photos"]
-        designation = request.POST.get('designation')
-        user = authenticate(request, username=request.user.username, password=password)
-        if user is None:
-            print("not authenticated, no update")
-            return HttpResponseRedirect('profile')
+    if request.user.is_authenticated and request.user.user_type=="teacher":
+        user_info = request.user
         x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
         if x != 0:
-            exist_check = Teachers_data.objects.get(user_id_id=request.user.id)
-            exist_check.mobile_no=mobile_no
-            exist_check.user_id_id=user_info.id
-            exist_check.address=address
-            exist_check.blood_group=blood_group
-            exist_check.sust_id=sust_id
-            exist_check.scholar=scholar
-            exist_check.designation=designation
-            exist_check.photos=request.FILES["photos"]
-            exist_check.save()
-        else:        
-            tc_up = Teachers_data(mobile_no=mobile_no, user_id_id=user_info.id,
-            address=address, blood_group=blood_group,  sust_id=sust_id, 
-            scholar=scholar, designation=designation, photos=request.FILES["photos"])
-            tc_up.save()
-        user_info = CustomUser.objects.get(id=request.user.id)
-        user_info.first_name=first_name
-        user_info.last_name=last_name
-        user_info.email=email
-        if len(new_password) != 0:
-            print("user password updated")
-            user_info.set_password(new_password)
-        user_info.is_active = True
-        user_info.save()
-        return HttpResponseRedirect('profile')
+            s_id = Teachers_data.objects.get(user_id_id=request.user.id)
+            return render(request, 'teacher_update.html', {'user_in': user_info, 'user_sd': s_id})
+        else:
+            return render(request, 'teacher_update.html', {'user_in': user_info, 'user_sd': user_info})
+    else:
+        return render(request,'home.html')
+
+def teacher_save(request):
+    if request.user.is_authenticated and request.user.user_type=="teacher":
+        user_info = request.user
+        print(request.method, "teacher up")
+        if request.method == 'POST':
+            print(request.FILES["photos"])
+            password = request.POST.get('password')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            email = request.POST.get('email')
+            new_password = request.POST.get('new_password')
+            mobile_no = request.POST.get('mobile_no')
+            blood_group = request.POST.get('blood_group')
+            address = request.POST.get('address')
+            sust_id = request.POST.get('sust_id')
+            scholar = request.POST.get('scholar')
+            photos = request.FILES["photos"]
+            designation = request.POST.get('designation')
+            user = authenticate(request, username=request.user.username, password=password)
+            if user is None:
+                print("not authenticated, no update")
+                return HttpResponseRedirect('profile')
+            x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
+            if x != 0:
+                exist_check = Teachers_data.objects.get(user_id_id=request.user.id)
+                exist_check.mobile_no=mobile_no
+                exist_check.user_id_id=user_info.id
+                exist_check.address=address
+                exist_check.blood_group=blood_group
+                exist_check.sust_id=sust_id
+                exist_check.scholar=scholar
+                exist_check.designation=designation
+                exist_check.photos=request.FILES["photos"]
+                exist_check.save()
+            else:        
+                tc_up = Teachers_data(mobile_no=mobile_no, user_id_id=user_info.id,
+                address=address, blood_group=blood_group,  sust_id=sust_id, 
+                scholar=scholar, designation=designation, photos=request.FILES["photos"])
+                tc_up.save()
+            user_info = CustomUser.objects.get(id=request.user.id)
+            user_info.first_name=first_name
+            user_info.last_name=last_name
+            user_info.email=email
+            if len(new_password) != 0:
+                print("user password updated")
+                user_info.set_password(new_password)
+            user_info.is_active = True
+            user_info.save()
+            return HttpResponseRedirect('profile')
     else:
         return render(request,'home.html')
 
@@ -430,7 +438,7 @@ def see_teacher(request, id):
     '''
         students can see the requested teacher profile
     '''
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.user_type=="student":
         user_info = request.user
         teacher = CustomUser.objects.get(id=id)
         td = None
