@@ -80,7 +80,7 @@ def form_save(request):
     '''
         save thesis form data then returns to user profile
     '''
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.user_type=="student":
         if request.method == 'POST':
             student_1_id = request.user.id
             student_1_sd = Student_data.objects.get(user_id_id=student_1_id)
@@ -102,38 +102,48 @@ def form_save(request):
             sup_5 = CustomUser.objects.get(id=supervisor_5)
             external = request.POST.get('external')
             student_1_name = request.user.first_name + " " + request.user.last_name
+            student_1_username = request.user.username
             student_2_name = student_2.first_name + " " + student_2.last_name
-            supervisor_1_name = sup_1.first_name + " " + sup_1.last_name
-            print(student_1_name, student_2_name)
+            student_2_username = student_2.username
+            # supervisor_1_name = sup_1.first_name + " " + sup_1.last_name
+            supervisor_1_name = sup_1.username
             supervisor_2_name = sup_2.first_name + " " + sup_2.last_name
+            supervisor_2_name = sup_2.username
             supervisor_3_name = sup_3.first_name + " " + sup_3.last_name
+            supervisor_3_name = sup_3.username
             supervisor_4_name = sup_4.first_name + " " + sup_4.last_name
+            supervisor_4_name = sup_4.username
             supervisor_5_name = sup_5.first_name + " " + sup_5.last_name
-            x = Form.objects.filter(student_1_id_id=student_1_id).count()
-            y = Form.objects.filter(student_1_id_id=student_2_id).count()
+            supervisor_5_name = sup_5.username
+            x = compact_Form.objects.filter(student_1_id_id=student_1_id).count()
+            y = compact_Form.objects.filter(student_1_id_id=student_2_id).count()
             if x != 0 or y!=0:
                 exist_check = None
                 if x != 0:
-                    exist_check = Form.objects.get(student_1_id_id=student_1_id)
+                    exist_check = compact_Form.objects.get(student_1_id_id=student_1_id)
                     print("Duplicate")
                     exist_check.student_1_id_id=student_1_id
                     exist_check.student_1_name=student_1_name
+                    exist_check.student_1_username=student_1_username
                     exist_check.student_2_id=student_2_id
                     exist_check.student_2_name=student_2_name
                     exist_check.student_1_majorcg=student_1_sd.major_cgpa
                     exist_check.student_1_totalcg=student_1_sd.total_cgpa
                     exist_check.student_2_majorcg=student_2_sd.major_cgpa
                     exist_check.student_2_totalcg=student_2_sd.total_cgpa
+                    exist_check.student_2_username=student_2_username
                 else:
-                    exist_check = Form.objects.get(student_1_id_id=student_2_id)
+                    exist_check = compact_Form.objects.get(student_1_id_id=student_2_id)
                     exist_check.student_1_id_id=student_2_id
                     exist_check.student_1_name=student_2_name
+                    exist_check.student_1_username=student_2_username
                     exist_check.student_2_name=student_1_name
                     exist_check.student_2_id=student_1_id
                     exist_check.student_1_majorcg=student_2_sd.major_cgpa
                     exist_check.student_1_totalcg=student_2_sd.total_cgpa
                     exist_check.student_2_majorcg=student_1_sd.major_cgpa
                     exist_check.student_2_totalcg=student_1_sd.total_cgpa
+                    exist_check.student_2_username=student_1_username
                 exist_check.Course=Course
                 exist_check.topic=topic
                 exist_check.description=description
@@ -150,7 +160,8 @@ def form_save(request):
                 exist_check.external=external
                 exist_check.save()
             else:
-                form_up = Form(student_1_id_id=student_1_id, student_2_id=student_2_id,
+                form_up = compact_Form(student_1_id_id=student_1_id, student_2_id=student_2_id,
+                student_1_username=student_1_username, student_2_username= student_2_username,  
                 student_1_majorcg=student_1_sd.major_cgpa, 
                 student_1_totalcg=student_1_sd.total_cgpa,
                 student_2_majorcg=student_2_sd.major_cgpa,
@@ -177,7 +188,7 @@ def about(request):
 
 def adminclick(request):
     if request.user.is_authenticated:
-        all_form = Form.objects.all()
+        all_form = compact_Form.objects.all()
         all_teacher = CustomUser.objects.filter(user_type="teacher")
         return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
     else:
@@ -188,7 +199,7 @@ def filter_form(request):
         query = float(request.GET.get("q"))
         print(float(query))
         if query:
-            form_x = Form.objects.all()
+            form_x = compact_Form.objects.all()
             all_form = []
             for x in form_x:
                 if x.student_1_majorcg >= query and x.student_2_majorcg >= query:
@@ -434,17 +445,22 @@ def form_approve(request, id):
     '''
         students are assigned to supervisor
     '''
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.user_type=="admin":
         if request.method == 'POST':
-            form_record = Form.objects.get(id=id)
+            form_record = compact_Form.objects.get(id=id)
             assigned_supervisor_id = request.POST.get('assigned_supervisor_id')
+            assigned_course = request.POST.get('assigned_course')
+            assigned_external = request.POST.get('assigned_external')
+            print(assigned_external)
             print(assigned_supervisor_id)
             sup = CustomUser.objects.filter(id=assigned_supervisor_id).count()
             if sup == 0:
                 return render(request, 'home.html')
             sup = CustomUser.objects.get(id=assigned_supervisor_id)
-            assigned_supervisor = sup.first_name + " " + sup.last_name
+            assigned_supervisor = sup.username
             form_record.assigned_supervisor_id = assigned_supervisor_id
+            form_record.assigned_course = assigned_course
+            form_record.assigned_external = assigned_external
             form_record.assigned_supervisor = assigned_supervisor
             form_record.action = "Assigned"
             form_record.save()
