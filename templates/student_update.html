@@ -51,12 +51,13 @@ body{
                 <div class="col-12 col-sm-auto mb-3">
                   <div class="text-center">
                     <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" class="avatar img-circle" alt="avatar"> -->
-                    <img src="{{user_sd.photos.url}}" class="avatar img-circle" alt="avatar" width="300" height="250">
+                    <img class="avatar img-circle" alt="avatar" width="300" height="250" src="{{user_sd.photos.url}}" onerror="this.onerror=null; this.src='https://sportlinx360.com/sites/default/files/public_uploads/Website_content/Website_Logos/graduate-student-avatar.png'" alt="" />
+                    <!-- <img src="{{user_sd.photos.url}}" class="avatar img-circle" alt="avatar" width="300" height="250"> -->
                     <h6>Change Photo</h6>
                     <input type="file" id="input_29" name="photos" class="form-upload validate[required]"
                     data-imagevalidate="yes"
                    data-file-accept="pdf, doc, docx, xls, xlsx, csv, txt, rtf, html, zip, mp3, wma, mpg, flv, avi, jpg, jpeg, png, gif"
-                   data-file-maxsize="1024" data-file-minsize="100" data-file-limit="" data-component="fileupload" required=""/>
+                   data-file-maxsize="1024" data-file-minsize="100" data-file-limit="" data-component="fileupload" />
                   </div>
                 </div>
                 <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
@@ -127,13 +128,13 @@ body{
                             <div class="col">
                             <div class="form-group">
                                 <label>CGPA (Overall)</label>
-                                <input class="form-control" type="text" name="total_cgpa" placeholder="Total CGPA" value={{user_sd.total_cgpa}} required>
+                                <input class="form-control" type="text" name="total_cgpa" placeholder="3.xx" value="{{user_sd.total_cgpa}}" required>
                             </div>
                             </div>
                           <div class="col">
                             <div class="form-group">
                               <label>CGPA (Major)</label>
-                              <input class="form-control" type="text" name="major_cgpa" placeholder="Major CGPA" value={{user_sd.major_cgpa}} required>
+                              <input class="form-control" type="text" name="major_cgpa" placeholder="3.xx" value="{{user_sd.major_cgpa}}" required>
                             </div>
                           </div>
                         </div>
