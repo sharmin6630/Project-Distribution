@@ -23,8 +23,8 @@ class Student_data(models.Model):
     mobile_no = models.CharField(null=True,blank=True,default=None,max_length=20)
     blood_group = models.CharField(null=True,blank=True,default=None,max_length=20)
     photos = models.FileField(null=True,blank=True,default=None,upload_to='images/')
-    major_cgpa = models.FloatField(null=True,blank=True,default=None,max_length=5)
-    total_cgpa = models.FloatField(null=True,blank=True,default=None,max_length=5)
+    major_cgpa = models.FloatField(null=True,blank=True,default=0.0,max_length=5)
+    total_cgpa = models.FloatField(null=True,blank=True,default=0.0,max_length=5)
     linkedin = models.CharField(null=True, blank=True, default=None, max_length=55)
     github = models.CharField(null=True, blank=True, default=None, max_length=55)
 
