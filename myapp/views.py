@@ -319,7 +319,9 @@ def student_save(request):
         user_info = request.user
         print(request.method, "hihi")
         if request.method == 'POST':
-            print(request.FILES["photos"])
+            if len(request.FILES) != 0:
+                print(request.FILES["photos"])
+                photos = request.FILES["photos"]
             password = request.POST.get('password')
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
@@ -332,7 +334,6 @@ def student_save(request):
             major_cgpa = request.POST.get('major_cgpa')
             github = request.POST.get('github')
             linkedin = request.POST.get('linkedin')
-            photos = request.FILES["photos"]
             user = authenticate(request, username=request.user.username, password=password)
             if user is None:
                 print("not authenticated, no update")
@@ -348,12 +349,19 @@ def student_save(request):
                 exist_check.major_cgpa=major_cgpa 
                 exist_check.github=github
                 exist_check.linkedin=linkedin
-                exist_check.photos=request.FILES["photos"]
+                if len(request.FILES) != 0:
+                    print(request.FILES["photos"])
+                    photos = request.FILES["photos"]
+                    exist_check.photos=request.FILES["photos"]
                 exist_check.save()
             else:        
                 st_up = Student_data(mobile_no=mobile_no, user_id_id=user_info.id,
                 address=address, blood_group=blood_group, total_cgpa=total_cgpa, 
-                major_cgpa=major_cgpa, github=github, linkedin=linkedin, photos=request.FILES["photos"])
+                major_cgpa=major_cgpa, github=github, linkedin=linkedin)
+                if len(request.FILES) != 0:
+                    print(request.FILES["photos"])
+                    photos = request.FILES["photos"]
+                    st_up.photos=request.FILES["photos"]
                 st_up.save()
             user_info = CustomUser.objects.get(id=request.user.id)
             user_info.first_name=first_name
@@ -386,7 +394,9 @@ def teacher_save(request):
         user_info = request.user
         print(request.method, "teacher up")
         if request.method == 'POST':
-            print(request.FILES["photos"])
+            if len(request.FILES) != 0:
+                print(request.FILES["photos"])
+                photos = request.FILES["photos"]
             password = request.POST.get('password')
             first_name = request.POST.get('first_name')
             last_name = request.POST.get('last_name')
@@ -397,7 +407,6 @@ def teacher_save(request):
             address = request.POST.get('address')
             sust_id = request.POST.get('sust_id')
             scholar = request.POST.get('scholar')
-            photos = request.FILES["photos"]
             designation = request.POST.get('designation')
             user = authenticate(request, username=request.user.username, password=password)
             if user is None:
@@ -413,12 +422,19 @@ def teacher_save(request):
                 exist_check.sust_id=sust_id
                 exist_check.scholar=scholar
                 exist_check.designation=designation
-                exist_check.photos=request.FILES["photos"]
+                if len(request.FILES) != 0:
+                    print(request.FILES["photos"])
+                    photos = request.FILES["photos"]
+                    exist_check.photos=request.FILES["photos"]
                 exist_check.save()
             else:        
                 tc_up = Teachers_data(mobile_no=mobile_no, user_id_id=user_info.id,
                 address=address, blood_group=blood_group,  sust_id=sust_id, 
-                scholar=scholar, designation=designation, photos=request.FILES["photos"])
+                scholar=scholar, designation=designation)
+                if len(request.FILES) != 0:
+                    print(request.FILES["photos"])
+                    photos = request.FILES["photos"]
+                    tc_up.photos=request.FILES["photos"]
                 tc_up.save()
             user_info = CustomUser.objects.get(id=request.user.id)
             user_info.first_name=first_name
