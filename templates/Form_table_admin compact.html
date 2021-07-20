@@ -12,6 +12,10 @@ Released under the MIT license: http://jsbin.mit-license.org
 <meta name="robots" content="noindex">
 <html>
 <head>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://gitcdn.xyz/repo/FuriosoJack/TableHTMLExport/v1.0.0/src/tableHTMLExport.js"></script>
+<!-- previous-->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <meta charset="utf-8">
   
@@ -91,6 +95,24 @@ body{
   content: "fa-minus";
 } */
 
+.export-btn {
+  background-color: #2466bd;
+  color: #fff;
+}
+.export-btn{
+  padding: 10px 16px;
+  border: 0;
+  outline: 0;
+  font-size: 18px;
+  border-radius: 4px;
+  margin: 10px auto;
+  cursor: pointer;
+  
+ }
+.export-btn:hover{
+  opacity: 0.9;
+
+ }
 
 .form-profile{
     background-color:rgb(205, 214, 243);
@@ -121,26 +143,27 @@ body{
   <br>
 
 <div class="container-fluid form-profile">
-<table class="jAccordionTable table table-hover" data-page-size="7" data-page-navigation=".pagination" data-limit-navigation="5">
+<main>
+<table class="jAccordionTable table table-hover" data-page-size="7" data-page-navigation=".pagination" data-limit-navigation="5" id="myTable">
         <thead>
         <tr class="bg-primary text-white">
-          <th scope="col" ></th>
-            <th scope="col" data-sort="int"># <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
-            <th scope="col" data-sort="int">M1 <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
-            <th scope="col" data-sort="int">CGPA_major <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
-            <th scope="col" data-sort="int">M2 <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
-            <th scope="col" data-sort="int">CGPA_major <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
-            <th scope="col" data-sort="string">Thesis/Project <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
-            <th scope="col" data-sort="string">Domain/Topic <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
-            <th scope="col" data-sort="string">Supervisor <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
-            <th scope="col">Update_Supervisor </th>
-            <th scope="col" data-sort="string">Action <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only">Sort</span></th>
+          <th scope="col" class="ignore_col"></th>
+            <th scope="col" data-sort="int">Team_no <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" data-sort="int">Member_1 <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" class="ignore_col" data-sort="int">CGPA_major <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" data-sort="int">Member_2 <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" class="ignore_col" data-sort="int">CGPA_major <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" data-sort="string">Thesis/Project <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" data-sort="string">Domain/Topic <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" data-sort="string">Supervisor <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" class="ignore_col" >Update_Supervisor </th>
+            <th scope="col" class="ignore_col" data-sort="string">Action <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
         </tr>
         </thead>
   {% for record in all_form %}
   <tbody>
     <tr>
-      <td>
+      <td class="ignore_col">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne{{record.id}}" aria-expanded="false" aria-controls="collapseOne{{record.id}}">
           <!-- <i class="fa" aria-hidden="true"></i> -->
           <!-- <i class="fa fa-plus" style="font-size:10px;color:blue"></i> -->
@@ -148,28 +171,28 @@ body{
         </button>
         <!-- <i class="fa fa-plus" style="font-size:10px;color:green"></i> -->
       </td>
-      <td>{{record.id}}</td>
+      <td id="Team_no">{{record.id}}</td>
       <!-- Student 1 -->
       <!-- <td>{{record.student_1_name}}</td> -->
       <!-- Student 1 reg -->
-      <td>{{record.student_1_id_id}}</td>
+      <td id="Member_1_reg">{{record.student_1_id_id}}</td>
       <!-- Student 1 cg -->
-      <td>{{record.student_1_majorcg}}</td>
+      <td id="Member_1_cg">{{record.student_1_majorcg}}</td>
       <!-- Student 2 -->
       <!-- <td>{{record.student_2_name}}</td> -->
       <!-- Student 2 reg-->
-      <td>{{record.student_2_id}}</td>
+      <td id="Member_2_reg">{{record.student_2_id}}</td>
       <!-- Student 2 cg -->
-      <td>{{record.student_2_majorcg}}</td>
+      <td id="Member_2_cg">{{record.student_2_majorcg}}</td>
       <!-- Topic -->
-      <td>{{record.Course}}</td>
+      <td id="Course">{{record.Course}}</td>
       <!-- domain -->
-      <td>{{record.topic}}</td>
-      <td>{{record.assigned_supervisor}}</td>
+      <td id="Topic">{{record.topic}}</td>
+      <td id="Assigned_Supervisor">{{record.assigned_supervisor}}</td>
       <form action="{% url 'form_approve' record.id %}" method="post" style="display: inline;">
       {% csrf_token %}
       <!-- Assign Select -->
-      <td>
+      <td id="select_supervisor">
           <select class="custom-select"  name="assigned_supervisor_id" autofocus required> 
               <option value="" disabled selected>Choose..</option>
               {% for teacher in all_teacher %}
@@ -177,7 +200,7 @@ body{
               {% endfor %}
             </select>
       </td>  
-      <td>
+      <td id="saveaction">
         <div class="saveaction">
         {{record.action}}
         </div>
@@ -186,7 +209,7 @@ body{
       </form>
     </tr>
     <tr class="collapse" id="collapseOne{{record.id}}">
-      <td colspan="11" font-size="10" class="table-secondary">     
+      <td colspan="11" font-size="10" class="table-secondary" id="details">     
         <p><b>Member 1:</b> {{record.student_1_name}}   &emsp; <b>Member 2:</b> <span>{{record.student_2_name}}</span></p>
         <p><b>Choice List:</b></p>
         <p>Choice_1: <span>{{record.supervisor_1_name}}</span>  &emsp;  Choice_2: <span>{{record.supervisor_2_name}}</span>
@@ -198,9 +221,33 @@ body{
     </tr>
   </tbody>
   {% endfor %}
-
   </table> 
+</main>
 </div>
+<div style="text-align: left">
+  <button class="export-btn btn-primary"> <i class="fa fa-file-excel-o"></i> Export to Excel</button>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{% static 'js/tableHTMLExport.js' %}"></script>
+<script>
+$(document).ready(function(){
+
+ $(".export-btn").click(function(){
+  
+   $("#myTable").tableHTMLExport({
+    ignoreColumns:'.ignore_col,#saveaction,#select_supervisor,#Member_1_cg,#Member_2_cg',
+    ignoreRows: '.collapse',
+    type:'csv',
+    filename:'student_data.csv',
+  });
+
+ });
+
+});
+
+</script>
 
 <script>
   function myFunction(this) {
