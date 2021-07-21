@@ -5,7 +5,7 @@ from myapp.forms import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
-from .models import CustomUser, Student_data, Teachers_data, Teacher_edu, Paper
+from .models import CustomUser, Student_data, Teachers_data, Teacher_edu, Paper, compact_Form
 from django.db.models import Q
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
@@ -272,6 +272,41 @@ def tasks(request):
             messages.info(request, 'Please update your data first.')
             return HttpResponseRedirect('profile')
         
+    else:
+        return HttpResponseRedirect('not_allowed')
+
+def filter_user_type(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated and request.user.user_type=="admin":
+            print("here i am")
+            user_type = request.POST.get('user_type')
+            user_info = request.user
+            all_teacher = CustomUser.objects.filter(user_type="teacher")
+            all_student = CustomUser.objects.filter(user_type="student")
+            td = []
+            sd = []
+            if user_type == "all":
+                return HttpResponseRedirect('search_user')
+            elif user_type == "teacher":
+                for x in all_teacher:
+                    y = None
+                    see = Teachers_data.objects.filter(user_id_id=x.id).count()
+                    if see != 0:
+                        y = Teachers_data.objects.get(user_id_id=x.id)
+                    td.append(y)
+                return render(request, 'search_user.html', {'user_in': user_info, 'all_teacher': zip(all_teacher,td), 
+                'all_student': zip(all_student, sd)})
+
+            elif user_type == "student":
+                for x in all_student:
+                    y = None
+                    see = Student_data.objects.filter(user_id_id=x.id).count()
+                    if see != 0:
+                        y = Student_data.objects.get(user_id_id=x.id)
+                    sd.append(y)
+                return render(request, 'search_user.html', {'user_in': user_info, 'all_teacher': zip(all_teacher,td), 
+                'all_student': zip(all_student, sd)})
+
     else:
         return HttpResponseRedirect('not_allowed')
 

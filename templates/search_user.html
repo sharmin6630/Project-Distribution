@@ -13,6 +13,7 @@ body {
   background: -webkit-linear-gradient(left, #3931af, #00c6ff);
 }
 
+
 body {
      font-family: 'Rubik', sans-serif;
      height: 100% !important;
@@ -259,6 +260,26 @@ body {
   <div class="container">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
+    <form method="post" action="filter_user_type">
+        {% csrf_token %}
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-20 p-0">
+                        <select class="custom-select" id="user_type" name="user_type" autofocus required>
+                            <option value="" disabled selected>Select user_type</option>
+                            <option value="all">All</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+                    <div class="row input-group-append col-lg-3 col-md-3 col-sm-12 p-0">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </div>
+    </form>
+    <br>
+    
     <div class="row">
         {% for teacher, td_i  in all_teacher %}
         <div class="col-md-4">

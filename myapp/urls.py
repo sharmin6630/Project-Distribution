@@ -31,6 +31,7 @@ urlpatterns = [
     path('population-chart', views.line_chart, name='population-chart'),
     path('search_user', views.search_user, name='search_user'), #search_users
     path('<int:id>/see_student/', views.see_student, name='see_student'), #student profile visit
+    path('filter_user_type', views.filter_user_type, name='filter_user_type'),
     # path('<int:id>/phd/',views.phd,name='phd'),
 ]
 
