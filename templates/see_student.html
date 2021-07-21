@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title></title>
+    <style media="screen">
+      body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Calibri', sans-serif !important;
+    /* background: linear-gradient(to right, #00FF00, #1565c0) */
+    /* background: linear-gradient(to right, #1565c0, #27AE60) */
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+}
+
+/* .box {
+    width: 500px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #191919;
+
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 10px 10px;
+    width: 250px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s
+}
+
+.box h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+    width: 300px;
+    border-color: #2ecc71
+}
+
+.box input[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer
+}
+.label {
+  color: white;
+}
+
+.box input[type="submit"]:hover {
+    background: #2ecc71
+}
+*/
+body{
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    /* border-radius: 20px; */
+}
+.emp-profile{
+    margin-top:90px; 
+    padding: 1.5%;
+    margin-left: 5%;
+    margin-left: 5%;
+    margin-bottom: 5%; 
+    border-radius: 5px;
+    /* border-radius: 0.5rem; */
+    /* background: whitesmoke; */
+    background-color:rgb(205, 214, 243);
+    /* background: #fff; */
+}
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    /* width: 70%;
+    height: 100%; */
+    width:300px; 
+    height:250px;
+}
+.profile-img .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
+}
+.profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+.profile-head h5{
+    color: #333;
+}
+.profile-head h6{
+    color: #0062cc;
+}
+.profile-edit-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+}
+.proile-rating{
+    font-size: 12px;
+    color: #818182;
+    margin-top: 5%;
+}
+.proile-rating span{
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+}
+.profile-head .nav-tabs{
+    margin-bottom:5%;
+}
+.profile-head .nav-tabs .nav-link{
+    font-weight:600;
+    border: none;
+}
+.profile-head .nav-tabs .nav-link.active{
+    border: none;
+    border-bottom:2px solid #0062cc;
+}
+.profile-work{
+    padding: 14%;
+    margin-top: -15%;
+}
+.profile-work p{
+    font-size: 12px;
+    color: #818182;
+    font-weight: 600;
+    margin-top: 10%;
+}
+.profile-work a{
+    text-decoration: none;
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
+}
+.profile-work ul{
+    list-style: none;
+}
+.profile-tab label{
+    font-weight: 600;
+}
+.profile-tab p{
+    font-weight: 600;
+    color: #0062cc;
+}
+.fa_custom {
+color: #0099CC
+}
+
+/* <!------ Include the above in your HEAD tag ----------> */
+
+    </style>
+</head>
+  <body>
+    {% include "navbar profile admin.html" %}
+    <div class="container emp-profile">
+      <form method="post">
+        {% csrf_token %}
+          <div class="row">
+              <div class="col-md-4">
+                  <div class="profile-img">
+                      <!-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/> -->
+                      <!-- <img src="{{user_sd.photos.url}}"> -->
+                      <img src="{{user_sd.photos.url}}" onerror="this.onerror=null; this.src='https://sportlinx360.com/sites/default/files/public_uploads/Website_content/Website_Logos/graduate-student-avatar.png'" alt="" />
+                      <!-- <div class="file btn btn-lg btn-primary">
+                          Change Photo
+                          <input type="file" name="photos">
+                      </div> -->
+                  </div>
+              </div>
+              <div class="col-md-6">
+                <div>
+                    {% for message in messages %}
+                    <h6 text-align="center" style="color:red">{{message}}</h6>
+                    {% endfor %}
+                  </div>
+                  <div class="profile-head">
+                              <h1>
+                                <span class="">{{user_in.first_name}} {{user_in.last_name}}</span>
+                                <!-- {{user_in.first_name}} {{user_in.last_name}} -->
+                              </h1>
+                              <h6>
+                                  <!-- Web Developer and Designer -->
+                              </h6>
+                              <!-- <p class="proile-rating">RANKINGS : <span>8/10</span></p> -->
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                          <li class="nav-item">
+                              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Educational Info</a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+              <!-- <div class="col-md-2"> -->
+                <!-- <button type="submit" class="btn btn-outline-primary"><a href="{% url 'student_update' %}">Update</a></button> -->
+                <!-- <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="student_update" role="button">Update</a>
+                </p> -->
+              <!-- </div> -->
+          </div>
+          
+          <div class="row">
+              <div class="col-md-4">
+                  <div class="profile-work">
+                      <p>Social Links</p>
+        
+                      <a href={{user_sd.github}}><i class="fa fa-github" style="font-size:18px"></i>github</a><br/>
+                      <a href={{user_sd.linkedin}}><i class="fa fa-linkedin-square fa_custom" style="font-size:18px"></i>Linkedin</a><br/>
+                      <!-- <p>SKILLS</p>
+                      <a href="">Web Designer</a><br/>
+                      <a href="">Web Developer</a><br/>
+                      <a href="">WordPress</a><br/>
+                      <a href="">WooCommerce</a><br/>
+                      <a href="">PHP, .Net</a><br/> -->
+                  </div>
+              </div>
+              <div class="col-md-8">
+                  <div class="tab-content profile-tab" id="myTabContent">
+                      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Registration no.</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{user_in.username}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Name</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{user_in.first_name}} {{user_in.last_name}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Email</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{user_in.email}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Phone</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{user_sd.mobile_no}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Blood Group</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{user_sd.blood_group}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Address</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>{{user_sd.address}}</p>
+                                    </div>
+                                </div>
+                      </div>
+                      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>CGPA (Overall) </label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{user_sd.total_cgpa}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>CGPA (Major)</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{user_sd.major_cgpa}}</p>
+                                      </div>
+                                  </div>
+                                  <!-- <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Total Projects</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>230</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>English Level</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>Expert</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Availability</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>6 months</p>
+                                      </div>
+                                  </div>
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <label>Your Bio</label><br/>
+                                  <p>Your detail description</p>
+                              </div>
+                          </div> -->
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </form>           
+  </div>
+<br><br><br><br>
+{% include "footer.html" %}
+  </body>
+</html>

@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 <html lang="en" dir="ltr">
   <head>
-    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <meta charset="utf-8">
     <title>Search</title>
 <style media="screen">
@@ -254,7 +254,7 @@ body {
  </style>
 </head>
   <body>
-    {% include "navbar profile student.html" %}
+    {% include "navbar profile admin.html" %}
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <div class="container">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -273,20 +273,36 @@ body {
                     <h6 class="f-w-600 m-t-25 m-b-10"><b>{{teacher.first_name}} {{teacher.last_name}}</b></h6>
                     <!-- <p class="text-muted">Active | Male | Born 23.05.1992</p> -->
                     <p class="text-muted">{{td_i.designation|default:"Designation"}}</p>
-                    <!-- <div class="row justify-content-center user-social-link">
-                        <div class="col-auto"><a href={{user_sd.sust_id}}> <i class="fa fa-globe" aria-hidden="true" style="font-size:18px"></i>SUST Profile</a></div>
-                        <div class="col-auto"><a href={{user_sd.scholar}}> <i class="fa fa-user" style="font-size:18px"> </i>Google Scholar</a><div>
-                        <div class="col-auto"><a href="#!"><i class="fa fa-facebook text-facebook"></i></a></div>
-                        <div class="col-auto"><a href="#!"><i class="fa fa-twitter text-twitter"></i></a></div>
-                        <div class="col-auto"><a href="#!"><i class="fa fa-dribbble text-dribbble"></i></a></div>
-                    </div> -->
                     <form action="{% url 'see_teacher' teacher.id %}" method="post" style="display: inline;">
                         {% csrf_token %}
                             <div style="text-align: center">
                                 <button class="btn btn-primary" value="See profile" type="submit">Go to Profile</button>
                             </div> 
                     </form>
-                
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% for student, sd_i  in all_student %}
+        <div class="col-md-4">
+            <div class="card user-card">
+                <div class="card-header">
+                    <h5>{{student.user_type}}</h5>
+                </div>
+                <div class="card-block">
+                    <div class="user-image">
+                        <img src="{{td_i.photos.url}}" onerror="this.onerror=null; this.src='https://sportlinx360.com/sites/default/files/public_uploads/Website_content/Website_Logos/graduate-student-avatar.png'" class="img-radius" alt="User-Profile-Image">
+                    </div>
+                    <h6 class="f-w-600 m-t-25 m-b-10"><b>{{student.first_name}} {{student.last_name}}</b></h6>
+                    <!-- <p class="text-muted">Active | Male | Born 23.05.1992</p> -->
+                    <p class="text-muted">{{sd_i.bloodgroup|default:"Blood Group"}}</p>
+                    <form action="{% url 'see_student' student.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                            <div style="text-align: center">
+                                <button class="btn btn-primary" value="See profile" type="submit">Go to Profile</button>
+                            </div> 
+                    </form>
+
                 </div>
             </div>
         </div>

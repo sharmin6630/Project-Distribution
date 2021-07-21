@@ -29,6 +29,8 @@ urlpatterns = [
     path('plot_show', views.home1, name='home1'),
     path('pie-chart', views.pie_chart, name='pie-chart'),
     path('population-chart', views.line_chart, name='population-chart'),
+    path('search_user', views.search_user, name='search_user'), #search_users
+    path('<int:id>/see_student/', views.see_student, name='see_student'), #student profile visit
     # path('<int:id>/phd/',views.phd,name='phd'),
 ]
 

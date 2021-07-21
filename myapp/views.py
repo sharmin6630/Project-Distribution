@@ -275,6 +275,35 @@ def tasks(request):
     else:
         return HttpResponseRedirect('not_allowed')
 
+def search_user(request):
+    '''
+        shows all user profile search
+    '''
+    if request.user.is_authenticated and request.user.user_type=="admin":
+        user_info = request.user
+        all_teacher = CustomUser.objects.filter(user_type="teacher")
+        all_student = CustomUser.objects.filter(user_type="student")
+        td = []
+        sd = []
+        for x in all_teacher:
+            y = None
+            see = Teachers_data.objects.filter(user_id_id=x.id).count()
+            if see != 0:
+                y = Teachers_data.objects.get(user_id_id=x.id)
+            td.append(y)
+        for x in all_student:
+            y = None
+            see = Student_data.objects.filter(user_id_id=x.id).count()
+            if see != 0:
+                y = Student_data.objects.get(user_id_id=x.id)
+            sd.append(y)
+        return render(request, 'search_user.html', {'user_in': user_info, 'all_teacher': zip(all_teacher,td), 
+        'all_student': zip(all_student, sd)})
+
+    else:
+        return HttpResponseRedirect('not_allowed')
+
+
 def search(request):
     '''
         shows teacher profile search
@@ -290,6 +319,7 @@ def search(request):
                 y = Teachers_data.objects.get(user_id_id=x.id)
             td.append(y)
         return render(request, 'search.html', {'user_in': user_info, 'all_teacher': zip(all_teacher,td)})
+
     else:
         return HttpResponseRedirect('not_allowed')
 
@@ -463,7 +493,7 @@ def teacher_save(request):
 
 def see_teacher(request, id):
     '''
-        students can see the requested teacher profile
+        students and admins can see the requested teacher profile
     '''
     if request.user.is_authenticated and request.user.user_type=="student":
         user_info = request.user
@@ -473,6 +503,32 @@ def see_teacher(request, id):
         if x != 0:
             td = Teachers_data.objects.get(user_id_id=teacher.id)
         return render(request, 'see_teacher.html', {'user_in': teacher, 'user_sd': td})
+
+    elif request.user.is_authenticated and request.user.user_type=="admin":
+        user_info = request.user
+        teacher = CustomUser.objects.get(id=id)
+        td = None
+        x = Teachers_data.objects.filter(user_id_id=teacher.id).count()
+        if x != 0:
+            td = Teachers_data.objects.get(user_id_id=teacher.id)
+        return render(request, 'see_teacher.html', {'user_in': teacher, 'user_sd': td})
+
+    else:
+        return HttpResponseRedirect('not_allowed')
+
+def see_student(request, id):
+    '''
+        admins can see the requested student profile
+    '''
+    if request.user.is_authenticated and request.user.user_type=="admin":
+        user_info = request.user
+        student = CustomUser.objects.get(id=id)
+        sd = None
+        x = Student_data.objects.filter(user_id_id=student.id).count()
+        if x != 0:
+            sd = Student_data.objects.get(user_id_id=student.id)
+        return render(request, 'see_student.html', {'user_in': student, 'user_sd': sd})
+
     else:
         return HttpResponseRedirect('not_allowed')
 
