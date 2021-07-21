@@ -6,32 +6,29 @@ from django.conf.urls.static import static
 # from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
-    path('', views.start, name='start'),
-    path('login', views.login, name='login'), ##login
-    path('about', views.about, name='about'),
-    path('contact', views.contact, name='contact'),
-    path('about', views.about, name='about'),
-    path('studentclick', views.studentclick, name='studentclick'),
-    path('teacherclick', views.teacherclick, name='teacherclick'),
-    path('adminclick', views.adminclick, name='adminclick'),
-    path('register', views.register, name='register'),
-    path('search', views.search, name='search'),
-    path('profile', views.profile, name='profile'),
-    path('logout', views.logout, name='logout'),
-    path('student_update', views.student_update, name='student_update'),
-    path('teacher_update', views.teacher_update, name='teacher_update'),
-    path('teacher_save', views.teacher_save, name='teacher_save'),
-    path('student_save', views.student_save, name='student_save'),
-    path('form_save', views.form_save, name='form_save'),
-    path('<int:id>/form_approve', views.form_approve, name='form_approve'),
-    path('tasks', views.tasks, name='tasks'),
-    path('<int:id>/see_teacher/', views.see_teacher, name='see_teacher'),
+    path('', views.start, name='start'), #start
+    path('login', views.login, name='login'), #login
+    path('about', views.about, name='about'), #about
+    path('contact', views.contact, name='contact'), #contact
+    path('form_output', views.form_output, name='form_output'), #form_outputs
+    path('register', views.register, name='register'), #register
+    path('search', views.search, name='search'), #search_teachers
+    path('profile', views.profile, name='profile'), #profile
+    path('logout', views.logout, name='logout'), #logout
+    path('student_update', views.student_update, name='student_update'), #student data update
+    path('teacher_update', views.teacher_update, name='teacher_update'), #teacher data update
+    path('teacher_save', views.teacher_save, name='teacher_save'), #teacher data save
+    path('student_save', views.student_save, name='student_save'), #student data save
+    path('form_save', views.form_save, name='form_save'), #form save
+    path('<int:id>/form_approve', views.form_approve, name='form_approve'), #form data approve
+    path('tasks', views.tasks, name='tasks'), #student form fill
+    path('<int:id>/see_teacher/', views.see_teacher, name='see_teacher'), #teacher profile visit
+    path('not_allowed', views.not_allowed, name='not_allowed'), #forbidden message
     # path('plot_show', views.plot_show, name='plot_show'),
-    path('filter_form',views.filter_form,name='filter_form'),
+    path('filter_form',views.filter_form,name='filter_form'), #filter student based on cgpa
     path('plot_show', views.home1, name='home1'),
     path('pie-chart', views.pie_chart, name='pie-chart'),
     path('population-chart', views.line_chart, name='population-chart'),
-    
     # path('<int:id>/phd/',views.phd,name='phd'),
 ]
 

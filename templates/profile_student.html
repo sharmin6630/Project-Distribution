@@ -210,6 +210,11 @@ color: #0099CC
                   </div>
               </div>
               <div class="col-md-6">
+                <div>
+                    {% for message in messages %}
+                    <h6 text-align="center" style="color:red">{{message}}</h6>
+                    {% endfor %}
+                  </div>
                   <div class="profile-head">
                               <h1>
                                 <span class="">{{user_in.first_name}} {{user_in.last_name}}</span>

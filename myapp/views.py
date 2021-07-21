@@ -8,6 +8,7 @@ from django.forms import inlineformset_factory
 from .models import CustomUser, Student_data, Teachers_data, Teacher_edu, Paper
 from django.db.models import Q
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth import get_user
 from django.conf import settings
@@ -24,9 +25,49 @@ def start(request):
     '''
     return render(request, 'start.html')
 
+def about(request):
+    '''
+        takes to about page
+    '''
+    return render(request,'about.html')
+
+def register(request):
+    '''
+        user registration is done and login page is loaded.
+        shows error based on criteria.
+    '''
+    if request.method == 'POST':
+        user_type = request.POST.get('user_type')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password_2')
+        username = request.POST.get('username')
+        if password == password2:
+            if CustomUser.objects.filter(username=username).exists():
+                messages.info(request, 'username already exists')
+                return redirect('register')
+            elif CustomUser.objects.filter(email=email).exists():
+                messages.info(request, 'email already exists')
+                return redirect('register')
+            else:
+                user = CustomUser(username=username, user_type=user_type, first_name=first_name, last_name=last_name, email=email, password=password)
+                print("user created")
+                user.set_password(password)
+                user.is_active = True
+                user.save()
+                return HttpResponseRedirect('login')
+        else:
+            messages.info(request, 'password doesn\'t match')
+            return redirect('register')
+    else:
+        return render(request,'register.html')
+
 def login(request):
     '''
-        authentication check, if true takes to profile
+        authentication check, if true takes to profile,
+        if not true shows error message
     '''
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -35,24 +76,54 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         print("user", user, username, password)
         if user is not None:
-            if user.is_active:
-                print("ok2")
-                auth_login(request, user)
-                print("ok2")
-                return HttpResponseRedirect('profile')
-                
-            else:
-                #messages.info(request, 'invalid credentials')
-                print("invalid")
-                return render(request, 'home.html')
+            auth_login(request, user)
+            return HttpResponseRedirect('profile')
         else:
-            print("ok4")
-            return render(request, 'home.html')
+            messages.info(request, 'Invalid credentials. Try again.')
+            print("invalid")
+            return redirect('login')
     else:
-        return render(request, 'home.html')
+        return render(request, 'login.html')
 
+def profile(request):
+    '''
+        loads profile based on user type, 
+        if not allowed returns to error page
+    '''
+    if request.user.is_authenticated:
+        user_info = request.user
+        if (user_info.user_type == "student"):
+            x = Student_data.objects.filter(user_id_id=request.user.id).count()
+            if x != 0:
+                s_id = Student_data.objects.get(user_id_id=request.user.id)
+                return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': s_id})
+            else:
+                return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': user_info})
+
+        elif (user_info.user_type == "teacher"):
+            x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
+            if x != 0:
+                s_id = Teachers_data.objects.get(user_id_id=request.user.id)
+                return render(request, 'profile_teacher.html', {'user_in': user_info, 'user_sd': s_id})
+            else:
+                return render(request, 'profile_teacher.html', {'user_in': user_info, 'user_sd': user_info})
+
+        elif (user_info.user_type == "admin"):
+            return render(request, 'profile_admin_test.html', {'user_in': user_info})
+
+    else:
+        return HttpResponseRedirect('not_allowed')
+
+def not_allowed(request):
+    '''
+        renders a forbidden page if request not authenticated
+    '''
+    return render(request, 'not_allowed.html')
 
 def contact(request):
+    '''
+        renders contact page
+    '''
     # sub = forms.ContactusForm()
     # if request.method == 'POST':
     #     sub = forms.ContactusForm(request.POST)
@@ -65,20 +136,10 @@ def contact(request):
     # return render(request, 'contact.html', {'form':sub})
     return render(request, 'contact.html')
 
-# def contact(request):
-#     if request.user.is_authenticated:
-#         user_info = request.user
-#         teacher_info = CustomUser.objects.filter(user_type="teacher")
-#         student_info = CustomUser.objects.filter(user_type="student")
-#         user_sd = Student_data.objects.get(user_id_id=request.user.id)
-#         s_data_all = Student_data.objects.all()
-#         return render(request, 'thesisform.html', {'user_in': user_info, 'user_sd': user_sd, 
-#         'all_student': student_info, 'all_teacher': teacher_info, 's_data_all': s_data_all})
-#     return render(request, 'home.html')
-
 def form_save(request):
     '''
-        save thesis form data then returns to user profile
+        save thesis form data then returns to user (student) profile
+        also checks duplicacy
     '''
     if request.user.is_authenticated and request.user.user_type=="student":
         if request.method == 'POST':
@@ -115,86 +176,54 @@ def form_save(request):
             supervisor_4_name = sup_4.username
             supervisor_5_name = sup_5.first_name + " " + sup_5.last_name
             supervisor_5_name = sup_5.username
-            x = compact_Form.objects.filter(student_1_id_id=student_1_id).count()
-            y = compact_Form.objects.filter(student_1_id_id=student_2_id).count()
-            if x != 0 or y!=0:
-                exist_check = None
-                if x != 0:
-                    exist_check = compact_Form.objects.get(student_1_id_id=student_1_id)
-                    print("Duplicate")
-                    exist_check.student_1_id_id=student_1_id
-                    exist_check.student_1_name=student_1_name
-                    exist_check.student_1_username=student_1_username
-                    exist_check.student_2_id=student_2_id
-                    exist_check.student_2_name=student_2_name
-                    exist_check.student_1_majorcg=student_1_sd.major_cgpa
-                    exist_check.student_1_totalcg=student_1_sd.total_cgpa
-                    exist_check.student_2_majorcg=student_2_sd.major_cgpa
-                    exist_check.student_2_totalcg=student_2_sd.total_cgpa
-                    exist_check.student_2_username=student_2_username
-                else:
-                    exist_check = compact_Form.objects.get(student_1_id_id=student_2_id)
-                    exist_check.student_1_id_id=student_2_id
-                    exist_check.student_1_name=student_2_name
-                    exist_check.student_1_username=student_2_username
-                    exist_check.student_2_name=student_1_name
-                    exist_check.student_2_id=student_1_id
-                    exist_check.student_1_majorcg=student_2_sd.major_cgpa
-                    exist_check.student_1_totalcg=student_2_sd.total_cgpa
-                    exist_check.student_2_majorcg=student_1_sd.major_cgpa
-                    exist_check.student_2_totalcg=student_1_sd.total_cgpa
-                    exist_check.student_2_username=student_1_username
-                exist_check.Course=Course
-                exist_check.topic=topic
-                exist_check.description=description
-                exist_check.supervisor_1=supervisor_1 
-                exist_check.supervisor_2=supervisor_2
-                exist_check.supervisor_3=supervisor_3
-                exist_check.supervisor_4=supervisor_4
-                exist_check.supervisor_5=supervisor_5
-                exist_check.supervisor_1_name=supervisor_1_name 
-                exist_check.supervisor_2_name=supervisor_2_name
-                exist_check.supervisor_3_name=supervisor_3_name
-                exist_check.supervisor_4_name=supervisor_4_name
-                exist_check.supervisor_5_name=supervisor_5_name
-                exist_check.external=external
-                exist_check.save()
-            else:
-                form_up = compact_Form(student_1_id_id=student_1_id, student_2_id=student_2_id,
-                student_1_username=student_1_username, student_2_username= student_2_username,  
-                student_1_majorcg=student_1_sd.major_cgpa, 
-                student_1_totalcg=student_1_sd.total_cgpa,
-                student_2_majorcg=student_2_sd.major_cgpa,
-                student_2_totalcg=student_2_sd.total_cgpa,
-                student_1_name=student_1_name,student_2_name=student_2_name,
-                Course=Course, topic=topic, description=description, 
-                supervisor_1=supervisor_1, supervisor_2=supervisor_2, 
-                supervisor_3=supervisor_3, supervisor_4=supervisor_4, 
-                supervisor_5=supervisor_5, external=external,
-                supervisor_1_name=supervisor_1_name, supervisor_2_name=supervisor_2_name,
-                supervisor_3_name=supervisor_3_name, supervisor_4_name=supervisor_4_name,
-                supervisor_5_name=supervisor_5_name)
-                form_up.save()
+            s1_exists_in_1 = compact_Form.objects.filter(student_1_id_id=student_1_id).count()
+            s1_exists_in_2 = compact_Form.objects.filter(student_2_id=student_1_id).count()
+            s2_exists_in_1 = compact_Form.objects.filter(student_1_id_id=student_2_id).count()
+            s2_exists_in_2 = compact_Form.objects.filter(student_2_id=student_2_id).count()
+            if s1_exists_in_1:
+                compact_Form.objects.get(student_1_id_id=student_1_id).delete()
+            elif s1_exists_in_2:
+                compact_Form.objects.get(student_2_id=student_1_id).delete()
+            elif s2_exists_in_1:
+                compact_Form.objects.get(student_1_id_id=student_2_id).delete()
+            elif s2_exists_in_2:
+                compact_Form.objects.get(student_2_id=student_2_id).delete()
+
+            form_up = compact_Form(student_1_id_id=student_1_id, student_2_id=student_2_id,
+            student_1_username=student_1_username, student_2_username= student_2_username,  
+            student_1_majorcg=student_1_sd.major_cgpa, 
+            student_1_totalcg=student_1_sd.total_cgpa,
+            student_2_majorcg=student_2_sd.major_cgpa,
+            student_2_totalcg=student_2_sd.total_cgpa,
+            student_1_name=student_1_name,student_2_name=student_2_name,
+            Course=Course, topic=topic, description=description, 
+            supervisor_1=supervisor_1, supervisor_2=supervisor_2, 
+            supervisor_3=supervisor_3, supervisor_4=supervisor_4, 
+            supervisor_5=supervisor_5, external=external,
+            supervisor_1_name=supervisor_1_name, supervisor_2_name=supervisor_2_name,
+            supervisor_3_name=supervisor_3_name, supervisor_4_name=supervisor_4_name,
+            supervisor_5_name=supervisor_5_name)
+            form_up.save()
         return HttpResponseRedirect('profile')
     else:
-        return render(request, 'home.html')
+        return HttpResponseRedirect('not_allowed.html')
 
 
-def about(request):
+def form_output(request):
     '''
-        takes to about page
+        shows form output data and assign option
     '''
-    return render(request,'about.html')
-
-def adminclick(request):
     if request.user.is_authenticated and request.user.user_type=="admin":
         all_form = compact_Form.objects.all()
         all_teacher = CustomUser.objects.filter(user_type="teacher")
         return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
     else:
-        return render(request,'home.html')
+        return HttpResponseRedirect('not_allowed.html')
 
 def filter_form(request):
+    '''
+        shows form output data based on cgpa filter and assign option
+    '''
     if request.user.is_authenticated and request.user.user_type=="admin":
         query = float(request.GET.get("q"))
         print(float(query))
@@ -207,83 +236,49 @@ def filter_form(request):
             all_teacher = CustomUser.objects.filter(user_type="teacher")
             return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
     else:
-        return render(request,'home.html')
+        return HttpResponseRedirect('not_allowed.html')
 
 
 def tasks(request):
+    '''
+        shows form. User can fill or update form.
+        user can update team member if that user 
+        has not yet formed another team
+    '''
     if request.user.is_authenticated and request.user.user_type=="student":
-        user_info = request.user
-        teacher_info = CustomUser.objects.filter(user_type="teacher")
-        pre_student_info = CustomUser.objects.filter(user_type="student")
-        student_info = []
-        for x in pre_student_info:
-            if x.id != request.user.id:
-                student_info.append(x)
-
-        #student_info = student_info.filter(id != request.user.id)
-        user_sd = Student_data.objects.get(user_id_id=request.user.id)
-        #s_data_all = Student_data.objects.all()
-        return render(request, 'thesisform.html', {'user_in': user_info, 
-        'user_sd': user_sd, 'all_student': student_info, 'all_teacher': teacher_info})
-    return render(request, 'home.html')
-
-def teacherclick(request):
-    return render(request,'teacherclick.html')
-
-def studentclick(request):
-    return render(request,'studentclick.html')
-
-def register(request):
-    '''
-        user registration is done and login page is loaded
-    '''
-    if request.method == 'POST':
-        user_type = request.POST.get('user_type')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        username = request.POST.get('username')
-        user = CustomUser(username=username, user_type=user_type, first_name=first_name, last_name=last_name, email=email, password=password)
-        print("user created")
-        user.set_password(password)
-        user.is_active = True
-        user.save()
-        return HttpResponseRedirect('login')
+        if Student_data.objects.filter(user_id_id=request.user.id).exists():
+            user_info = request.user
+            teacher_info = CustomUser.objects.filter(user_type="teacher")
+            pre_student_info = CustomUser.objects.filter(user_type="student")
+            student_info = []
+            for x in pre_student_info:
+                if x.id != request.user.id and Student_data.objects.filter(user_id_id=x.id).exists():
+                    other_team_as_1 = compact_Form.objects.filter(student_1_id_id=x.id).count()
+                    other_team_as_2 = compact_Form.objects.filter(student_2_id=x.id).count()
+                    print(other_team_as_1, other_team_as_2)
+                    if other_team_as_1 != 0:
+                        team =  compact_Form.objects.get(student_1_id_id=x.id)
+                        if team.student_2_id != request.user.id:
+                            continue
+                    elif other_team_as_2 != 0:
+                        team =  compact_Form.objects.get(student_2_id=x.id)
+                        if team.student_1_id_id != request.user.id:
+                            continue
+                    student_info.append(x)
+            user_sd = Student_data.objects.get(user_id_id=request.user.id)
+            return render(request, 'thesisform.html', {'user_in': user_info, 
+            'user_sd': user_sd, 'all_student': student_info, 'all_teacher': teacher_info})
+        else:
+            messages.info(request, 'Please update your data first.')
+            return HttpResponseRedirect('profile')
+        
     else:
-        return render(request,'register.html')
-
-def profile(request):
-    '''
-        loads profile based on user type, 
-        if not false to login page
-    '''
-    if request.user.is_authenticated:
-        user_info = request.user
-        if (user_info.user_type == "student"):
-            x = Student_data.objects.filter(user_id_id=request.user.id).count()
-            if x != 0:
-                s_id = Student_data.objects.get(user_id_id=request.user.id)
-                return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': s_id})
-            else:
-                return render(request, 'profile_student.html', {'user_in': user_info, 'user_sd': user_info})
-
-        elif (user_info.user_type == "teacher"):
-            x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
-            if x != 0:
-                s_id = Teachers_data.objects.get(user_id_id=request.user.id)
-                return render(request, 'profile_teacher.html', {'user_in': user_info, 'user_sd': s_id})
-            else:
-                return render(request, 'profile_teacher.html', {'user_in': user_info, 'user_sd': user_info})
-
-        elif (user_info.user_type == "admin"):
-            return render(request, 'profile_admin_test.html', {'user_in': user_info})
-    else:
-        #messages.info(request, 'invalid credentials')
-        print("invalid")
-        return render(request, 'home.html')
+        return HttpResponseRedirect('not_allowed')
 
 def search(request):
+    '''
+        shows teacher profile search
+    '''
     if request.user.is_authenticated and request.user.user_type=="student":
         user_info = request.user
         all_teacher = CustomUser.objects.filter(user_type="teacher")
@@ -296,13 +291,19 @@ def search(request):
             td.append(y)
         return render(request, 'search.html', {'user_in': user_info, 'all_teacher': zip(all_teacher,td)})
     else:
-        return render(request, 'home.html')
+        return HttpResponseRedirect('not_allowed')
 
 def logout(request):
+    '''
+        logout
+    '''
     auth_logout(request)
     return HttpResponseRedirect('login')
 
 def student_update(request):
+    '''
+        student data update
+    '''
     if request.user.is_authenticated and request.user.user_type=="student":
         user_info = request.user
         x = Student_data.objects.filter(user_id_id=request.user.id).count()
@@ -312,12 +313,14 @@ def student_update(request):
         else:
             return render(request, 'student_update.html', {'user_in': user_info, 'user_sd': user_info})
     else:
-        return render(request,'home.html')
+        return HttpResponseRedirect('not_allowed')
 
 def student_save(request):
+    '''
+        student data save
+    '''
     if request.user.is_authenticated and request.user.user_type=="student":
         user_info = request.user
-        print(request.method, "hihi")
         if request.method == 'POST':
             if len(request.FILES) != 0:
                 print(request.FILES["photos"])
@@ -337,7 +340,8 @@ def student_save(request):
             user = authenticate(request, username=request.user.username, password=password)
             if user is None:
                 print("not authenticated, no update")
-                return HttpResponseRedirect('profile')
+                messages.info(request, "Password was incorrect. Data was not updated.Try Again.")
+                return HttpResponseRedirect('student_update')
             x = Student_data.objects.filter(user_id_id=request.user.id).count()
             if x != 0:
                 exist_check = Student_data.objects.get(user_id_id=request.user.id)
@@ -375,9 +379,12 @@ def student_save(request):
             x = Student_data.objects.filter(user_id_id=request.user.id).count()
             return HttpResponseRedirect('profile')
     else:
-        return render(request,'home.html')
+        return HttpResponseRedirect('not_allowed')
 
 def teacher_update(request):
+    '''
+        teacher data update
+    '''
     if request.user.is_authenticated and request.user.user_type=="teacher":
         user_info = request.user
         x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
@@ -387,9 +394,12 @@ def teacher_update(request):
         else:
             return render(request, 'teacher_update.html', {'user_in': user_info, 'user_sd': user_info})
     else:
-        return render(request,'home.html')
+        return HttpResponseRedirect('not_allowed')
 
 def teacher_save(request):
+    '''
+        teacher data save
+    '''
     if request.user.is_authenticated and request.user.user_type=="teacher":
         user_info = request.user
         print(request.method, "teacher up")
@@ -411,7 +421,8 @@ def teacher_save(request):
             user = authenticate(request, username=request.user.username, password=password)
             if user is None:
                 print("not authenticated, no update")
-                return HttpResponseRedirect('profile')
+                messages.info(request, "Password was incorrect. Data was not updated.Try Again.")
+                return HttpResponseRedirect('teacher_update')
             x = Teachers_data.objects.filter(user_id_id=request.user.id).count()
             if x != 0:
                 exist_check = Teachers_data.objects.get(user_id_id=request.user.id)
@@ -447,7 +458,7 @@ def teacher_save(request):
             user_info.save()
             return HttpResponseRedirect('profile')
     else:
-        return render(request,'home.html')
+        return HttpResponseRedirect('not_allowed')
 
 
 def see_teacher(request, id):
@@ -463,7 +474,7 @@ def see_teacher(request, id):
             td = Teachers_data.objects.get(user_id_id=teacher.id)
         return render(request, 'see_teacher.html', {'user_in': teacher, 'user_sd': td})
     else:
-        return render(request, 'home.html')
+        return HttpResponseRedirect('not_allowed')
 
 def form_approve(request, id):
     '''
@@ -479,7 +490,7 @@ def form_approve(request, id):
             print(assigned_supervisor_id)
             sup = CustomUser.objects.filter(id=assigned_supervisor_id).count()
             if sup == 0:
-                return render(request, 'home.html')
+                return render(request, 'login.html')
             sup = CustomUser.objects.get(id=assigned_supervisor_id)
             assigned_supervisor = sup.username
             form_record.assigned_supervisor_id = assigned_supervisor_id
@@ -488,9 +499,9 @@ def form_approve(request, id):
             form_record.assigned_supervisor = assigned_supervisor
             form_record.action = "Assigned"
             form_record.save()
-            return redirect('adminclick')
+            return redirect('form_output')
     else:
-        return render(request, 'home.html')
+        return HttpResponseRedirect('not_allowed')
 
 # def plot_show(request):
 #     all_form = Form.objects.all()
@@ -500,42 +511,45 @@ def form_approve(request, id):
 
 
 def pie_chart(request):
-    print("pie_chart")
-    data=[]
-    labels=["Thesis", "project"]
-    queryset = Student_data.objects.all()
-    count_ma=0
-    count_mi=0
-    count=0
-    total=0
-    
-    for c in queryset:
-        total=total+1
-        if c.major_cgpa>=3.5:
-            count_ma=count_ma+1
-            
-        if c.total_cgpa>=3.5:
-            count_mi=count_mi+1
-
-        if c.major_cgpa>=3.5 and c.total_cgpa>=3.5:
-            count=count+1
-
-    thesis= count
-    project= total-count
+    if request.user.is_authenticated and request.user.user_type=="admin":
+        print("pie_chart")
+        data=[]
+        labels=["Thesis", "project"]
+        queryset = Student_data.objects.all()
+        count_ma=0
+        count_mi=0
+        count=0
+        total=0
         
-    data.append(thesis)
-    data.append(project)
+        for c in queryset:
+            total=total+1
+            if c.major_cgpa>=3.5:
+                count_ma=count_ma+1
+                
+            if c.total_cgpa>=3.5:
+                count_mi=count_mi+1
 
-    return render(request, 'pie_chart.html', {
-        'labels': labels,
-        'data': data,
-    })
+            if c.major_cgpa>=3.5 and c.total_cgpa>=3.5:
+                count=count+1
+
+        thesis= count
+        project= total-count
+            
+        data.append(thesis)
+        data.append(project)
+
+        return render(request, 'pie_chart.html', {
+            'labels': labels,
+            'data': data,
+        })
+    else:
+        return HttpResponseRedirect('not_allowed')
 
 
 
 def line_chart(request):
     data=[]
-    labels=["Major", "Total","Major and Total", "CGPA less than 2"]
+    labels=["Major_CGPA >= 3.5 ", "Total_CGPA >= 3.5","Both_CGPA >= 3.5", "Both_CGPA <= 2"]
     queryset = Student_data.objects.all()
     count_ma=0
     count_mi=0
@@ -544,7 +558,6 @@ def line_chart(request):
     for c in queryset:
         if c.major_cgpa>=3.5:
             count_ma=count_ma+1
-            
         if c.total_cgpa>=3.5:
             count_mi=count_mi+1
         
@@ -562,6 +575,8 @@ def line_chart(request):
         'data': data,
     })
 
-
 def home1(request):
-    return render(request, 'home1.html')
+    if request.user.is_authenticated and request.user.user_type=="admin":
+        return render(request, 'home1.html')
+    else:
+        return HttpResponseRedirect('not_allowed')  

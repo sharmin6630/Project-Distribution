@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
-
 {% block content %}
-  <div id="container" style="width: 75%;">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<style>
+  body{
+    font-family: 'Calibri', sans-serif !important;
+  }
+</style>
+
+  <div id="container" style="width: 55%;">
     <canvas id="pie-chart"></canvas>
   </div>
 
@@ -14,7 +21,8 @@
         datasets: [{
           data: {{ data|safe }},
           backgroundColor: [
-            'black','red'
+            // 'black','red'
+            'greenyellow','#428df5'
           ],
           label: 'Population'
         }],
@@ -33,3 +41,6 @@
   </script>
 
 {% endblock %}
+
+<br><br><br><br>
+{% include "footer.html" %}
