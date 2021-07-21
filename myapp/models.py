@@ -22,7 +22,7 @@ class Student_data(models.Model):
     gender = models.CharField(null=True,blank=True,default=None,max_length=20)
     mobile_no = models.CharField(null=True,blank=True,default=None,max_length=20)
     blood_group = models.CharField(null=True,blank=True,default=None,max_length=20)
-    photos = models.FileField(null=True,blank=True,default=None,upload_to='images/')
+    photos = models.FileField(null=True,blank=True,default="images/default.png",upload_to='images/')
     major_cgpa = models.FloatField(null=True,blank=True,default=0.0,max_length=5)
     total_cgpa = models.FloatField(null=True,blank=True,default=0.0,max_length=5)
     linkedin = models.CharField(null=True, blank=True, default=None, max_length=55)
@@ -38,7 +38,7 @@ class Teachers_data(models.Model):
     blood_group = models.CharField(null=True,blank=True,default=None,max_length=20)
     mobile_no = models.CharField(null=True,blank=True,default=None,max_length=20)
     designation = models.TextField(null=True,blank=True,default=None)
-    photos = models.FileField(null=True,blank=True,default=None,upload_to='teacher/')
+    photos = models.FileField(null=True,blank=True,default="teacher/default.png",upload_to='teacher/')
     sust_id = models.CharField(null=True, blank=True, default=None, max_length=55)
     scholar = models.CharField(null=True, blank=True, default=None, max_length=55)
 

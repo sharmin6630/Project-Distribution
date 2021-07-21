@@ -108,10 +108,18 @@
                   
                       <!-- <label for="psw" class="text-muted"><b>Password</b></label> -->
                       <input type="password" placeholder="Enter Password" name="password" required>
-                  
+                      
+
+                      <div>
+                        {% for message in messages %}
+                        <h7 text-align="center" style="color:red">{{message}}</h7>
+                        {% endfor %}
+                      </div>
                       
                       <br>
                       <input type="submit" name="" value="Login">
+
+    
     
                       <!-- <div class="col-sm-12 form-group">
                         <button class="btn btn-danger" type="danger" class="cancelbtn" value="Cancel">Cancel</button>

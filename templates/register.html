@@ -93,6 +93,11 @@
                     <div class="container">
                       <h1>Register</h1>
                       <p class="text-muted">Please fill in this form to create an account. </p>
+                      <div>
+                        {% for message in messages %}
+                        <h7 text-align="center" style="color:red">{{message}}</h7>
+                        {% endfor %}
+                      </div>
                       <hr>
                       <label for="user_type" class="text-muted"><b>I am a : </b></label>
                       <select class="custom-select" style="width:150px" id="user_type" name="user_type"  autofocus required>
@@ -114,7 +119,7 @@
                       <input type="password" placeholder="Enter Password" name="password" required>
                   
                       <!-- <label for="psw-repeat" class="text-muted"><b>Repeat Password</b></label> -->
-                      <!-- <input type="password" placeholder="Confirm Password" name="password_2" required> -->
+                      <input type="password" placeholder="Confirm Password" name="password_2" required>
                       
                       <!-- <label class="text-muted">
                         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
@@ -136,6 +141,8 @@
 <br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br>
 <br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br>
+
 <br><br><br>
 {% include "footer.html" %}
   </body>

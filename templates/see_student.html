@@ -193,7 +193,7 @@ color: #0099CC
     </style>
 </head>
   <body>
-    {% include "navbar profile student.html" %}
+    {% include "navbar profile admin.html" %}
     <div class="container emp-profile">
       <form method="post">
         {% csrf_token %}
@@ -234,12 +234,12 @@ color: #0099CC
                       </ul>
                   </div>
               </div>
-              <div class="col-md-2">
+              <!-- <div class="col-md-2"> -->
                 <!-- <button type="submit" class="btn btn-outline-primary"><a href="{% url 'student_update' %}">Update</a></button> -->
-                <p class="lead">
+                <!-- <p class="lead">
                     <a class="btn btn-primary btn-lg" href="student_update" role="button">Update</a>
-                </p>
-              </div>
+                </p> -->
+              <!-- </div> -->
           </div>
           
           <div class="row">

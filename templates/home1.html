@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+  body{
+    font-family: 'Calibri', sans-serif !important;
+  }
+</style>
 
   <div id="container" style="width: 55%;">
     <canvas id="population-chart" data-url="{% url 'population-chart' %}"></canvas>
   </div>
-
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
   <script>
@@ -25,7 +30,8 @@
               labels: data.labels,
               datasets: [{
                 label: 'Number of student',
-                backgroundColor: 'blue',
+                // backgroundColor: 'blue',
+                backgroundColor: "#428df5",
                 data: data.data
               }]          
             },

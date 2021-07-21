@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en" dir="ltr">
+  <head>
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <meta charset="utf-8">
+    <title>Search</title>
+<style media="screen">
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Calibri', sans-serif !important;
+  background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+}
+
+body {
+     font-family: 'Rubik', sans-serif;
+     height: 100% !important;
+     background-color: #3F51B5 !important
+ }
+
+ #star {
+     margin-left: -5px !important;
+     vertical-align: bottom !important;
+     opacity: 0.5
+ }
+
+ .more {
+     opacity: 0.5 !important
+ }
+
+ .btn:hover {
+     color: black !important
+ }
+
+ .vl {
+     margin: 8px !important;
+     width: 2px;
+     border-right: 1px solid #aaaaaa;
+     height: 25px
+ }
+
+ #plus {
+     opacity: 0.8
+ }
+
+ .card {
+     border-radius: 10px !important
+ }
+
+ /* a:hover {
+     background-color: #ccc !important
+ } */
+
+ .btn-outlined:active {
+     color: #FFF;
+     border-color: #fff !important
+ }
+
+ img {
+     cursor: pointer;
+     overflow: visible
+ }
+
+ .btn:focus,
+ .btn:active {
+     outline: none !important;
+     box-shadow: none !important
+ }
+
+ .container {
+     margin-top: 100px !important
+ }
+ </style>
+</head>
+  <body>
+    {% include "navbar profile student.html" %}
+    <br><br><br>
+	<br><br><br>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <div class="container">
+    {% for teacher, td_i  in all_teacher %}
+    <div class="card mt-5 border-5 pt-2 active pb-0 px-3">
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-12 ">
+                    <h4 class="card-title "><b>{{teacher.first_name}} {{teacher.last_name}}</b></h4>
+                </div>
+                <div class="col-md-2 col-sm-2">
+                    <img alt="user" class="avatar img-circle" alt="avatar" width="130" height="130" src="{{td_i.photos.url}}" onerror="this.onerror=null; this.src='https://www.easy-profile.com/support.html?controller=attachment&task=download&tmpl=component&id=2883'" alt="" />
+                  <!-- <img src="{{td_i.photos.url}}" alt="user" class="avatar img-circle" alt="avatar" width="130" height="130"> -->
+                </div>
+                <div class="col" style="float: right">
+                    <h6 class="card-subtitle mb-2">
+                        <p class="card-text"> 
+                          <span class="vl mr-2 ml-0"></span><span class="font-weight-bold"> {{td_i.designation}}</span></p>
+                    </h6>
+                </div>
+                <form action="{% url 'see_teacher' teacher.id %}" method="post" style="display: inline;">
+                  {% csrf_token %}
+        <input type="submit" value="See profile" class="btn btn-primary">
+
+  </form>
+            </div>
+        </div>
+        <!-- <div class="card-footer bg-white px-0 ">
+            <div class="row">
+                <div class=" col-md-auto "> <a href="#" class="btn btn-outlined btn-black text-muted bg-transparent" data-wow-delay="0.7s"><img src="https://img.icons8.com/ios/50/000000/settings.png" width="19" height="19"> <small>SETTINGS</small></a> <i class="mdi mdi-settings-outline"></i> 
+                  <a href="#" class=" btn-outlined btn-black text-muted"><img src="https://img.icons8.com/metro/26/000000/link.png" width="17" height="17" id="plus"> <small>PROGRAM LINK</small> </a> 
+                  <a href="#" class="btn btn-outlined btn-black text-muted "><img src="https://img.icons8.com/metro/26/000000/more.png" width="20" height="20" class="mr-2 more"><small>MORE</small></a> <span class="vl ml-3"></span> </div>
+            </div>
+        </div> -->
+    </div>
+    {% endfor %}
+
+</div>
+  
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+<br><br><br><br>
+	<!-- CONTENT =============================-->
+{% include "footer.html" %}
+</body>
+</html>
