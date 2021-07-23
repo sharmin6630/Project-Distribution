@@ -206,7 +206,7 @@ def form_save(request):
             form_up.save()
         return HttpResponseRedirect('profile')
     else:
-        return HttpResponseRedirect('not_allowed.html')
+        return HttpResponseRedirect('not_allowed')
 
 
 def form_output(request):
@@ -218,7 +218,7 @@ def form_output(request):
         all_teacher = CustomUser.objects.filter(user_type="teacher")
         return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
     else:
-        return HttpResponseRedirect('not_allowed.html')
+        return HttpResponseRedirect('not_allowed')
 
 def filter_form(request):
     '''
@@ -236,7 +236,7 @@ def filter_form(request):
             all_teacher = CustomUser.objects.filter(user_type="teacher")
             return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
     else:
-        return HttpResponseRedirect('not_allowed.html')
+        return HttpResponseRedirect('not_allowed')
 
 
 def tasks(request):
