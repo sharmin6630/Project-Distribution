@@ -231,7 +231,11 @@ body{
 		     {% endif %}
 	    </table>
       
-      
+      {% if user.user_type != "student" %}
+        <div container="container">
+          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="#"> Post New Notice</a>
+        </div>
+      {% endif %}
     
       
 		 {% if is_paginated %}
