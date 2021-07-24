@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'markdown',
 ]
 
 AUTH_USER_MODEL = 'myapp.CustomUser'
