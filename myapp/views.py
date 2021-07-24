@@ -5,7 +5,7 @@ from myapp.forms import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
-from .models import CustomUser, Student_data, Teachers_data, Teacher_edu, Paper, compact_Form
+from .models import CustomUser, Student_data, Teachers_data, Teacher_edu, Paper, compact_Form, Notice
 from django.db.models import Q
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
@@ -13,6 +13,9 @@ from django.conf import settings
 from django.contrib.auth import get_user
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.views.generic import ListView,DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 IMAGE_FILES_TYPES = ['png', 'jpg', 'jpeg']
 
@@ -671,3 +674,9 @@ def home1(request):
         return render(request, 'home1.html')
     else:
         return HttpResponseRedirect('not_allowed')  
+
+class NoticeListView(ListView):
+    model = Notice   
+    template_name='notice_view.html'
+    context_object_name='notices'
+    ordering=['-created_at']
