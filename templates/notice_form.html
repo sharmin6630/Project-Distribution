@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title></title>
+    <style media="screen">
+      body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    /* background: linear-gradient(to right, #00FF00, #1565c0) */
+    /* background: linear-gradient(to right, #1565c0, #27AE60) */
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+}
+
+/* .box {
+    width: 500px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #191919;
+
+    text-align: center;
+    transition: 0.25s;
+    margin-top: 100px
+}
+
+.box input[type="text"],
+.box input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 10px 10px;
+    width: 250px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s
+}
+
+.box h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500
+}
+
+.box input[type="text"]:focus,
+.box input[type="password"]:focus {
+    width: 300px;
+    border-color: #2ecc71
+}
+
+.box input[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer
+}
+.label {
+  color: white;
+}
+
+.box input[type="submit"]:hover {
+    background: #2ecc71
+}
+*/
+body{
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    /* border-radius: 20px; */
+}
+.emp-profile{
+    margin-top:90px; 
+    padding: 1.5%;
+    margin-left: 5%;
+    margin-left: 5%;
+    margin-bottom: 5%; 
+    border-radius: 5px;
+   
+    /* border-radius: 0.5rem; */
+    /* background: whitesmoke; */
+    background-color:rgb(205, 214, 243);
+    /* background: #fff; */
+}
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    /* width: 70%;
+    height: 100%; */
+    width:300px; 
+    height:250px;
+}
+.profile-img .file {
+    position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
+}
+.profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+.profile-head h5{
+    color: #333;
+}
+.profile-head h6{
+    color: #0062cc;
+}
+.profile-edit-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+}
+.proile-rating{
+    font-size: 12px;
+    color: #818182;
+    margin-top: 5%;
+}
+.proile-rating span{
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+}
+.profile-head .nav-tabs{
+    margin-bottom:5%;
+}
+.profile-head .nav-tabs .nav-link{
+    font-weight:600;
+    border: none;
+}
+.profile-head .nav-tabs .nav-link.active{
+    border: none;
+    border-bottom:2px solid #0062cc;
+}
+.profile-work{
+    padding: 14%;
+    margin-top: -15%;
+}
+.profile-work p{
+    font-size: 12px;
+    color: #818182;
+    font-weight: 600;
+    margin-top: 10%;
+}
+.profile-work a{
+    text-decoration: none;
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
+}
+.profile-work ul{
+    list-style: none;
+}
+.profile-tab label{
+    font-weight: 600;
+}
+.profile-tab p{
+    font-weight: 600;
+    color: #0062cc;
+} 
+
+
+
+/* <!------ Include the above in your HEAD tag ----------> */
+
+    </style>
+</head>
+  <body>
+    {% include "navbar profile teacher.html" %}
+    <div class="container emp-profile">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form method="POST">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">
+                            Post a New Notice:
+                        </legend>
+                        {{ form|crispy }}
+                    </fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit"> Post Now </button>
+                    </div>
+                </form>
+           </div>
+        </div>
+        
+    </div>
+    
+<br><br><br><br>
+{% include "footer.html" %}
+  </body>
+</html>

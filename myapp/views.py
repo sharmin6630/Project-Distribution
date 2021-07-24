@@ -680,5 +680,3 @@ class NoticeListView(ListView):
     template_name='notice_view.html'
     context_object_name='notices'
     ordering=['-created_at']
-
-

@@ -33,9 +33,6 @@ urlpatterns = [
     path('<int:id>/see_student/', views.see_student, name='see_student'), #student profile visit
     path('filter_user_type', views.filter_user_type, name='filter_user_type'),
     path('notices', views.NoticeListView.as_view(), name='notice-view'),
-    #path('notice/create',views.NoticeCreateView.as_view(),name='notice-create'),
-
-
     # path('<int:id>/phd/',views.phd,name='phd'),
 ]
 
