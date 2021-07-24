@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.html import mark_safe
+from markdown import markdown
+from django.urls import reverse
 # Create your models here.
 #Lets build model classes here.
 class CustomUser(AbstractUser):
@@ -96,3 +99,17 @@ class compact_Form(models.Model):
     assigned_supervisor_id = models.CharField(null=True, blank=True, default=None, max_length=55)
     action = models.CharField(null=True, blank=True, default="Save", max_length=55)
 
+class Notice(models.Model):
+	title = models.CharField(max_length=100)
+	message = models.TextField(max_length=2000)
+	created_at = models.DateTimeField(auto_now_add=True)
+	created_by = models.ForeignKey(CustomUser, related_name='posts', on_delete=models.DO_NOTHING)
+    
+	def __str__(self):
+		return self.title
+        
+	def get_message_as_markdown(self):
+		return mark_safe(markdown(self.message))       
+
+	def get_absolute_url(self):
+		return  reverse('notice-detail',kwargs={'pk':self.pk})
