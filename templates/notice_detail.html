@@ -85,6 +85,7 @@ body{
     background: -webkit-linear-gradient(left, #3931af, #00c6ff);
     /* border-radius: 20px; */
 }
+
 .emp-profile{
     margin-top:90px; 
     padding: 1.5%;
@@ -191,93 +192,42 @@ body{
 </head>
   <body>
     {% if user.user_type == "student" %}
-      {% include "navbar profile student.html" %}
+        {% include "navbar profile student.html" %}
     {% else %}
-      {% include "navbar profile teacher.html" %}
-    {% endif %}
-    <div class="container emp-profile">
-      <div class="container">
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-{{message.tags}}">
-              {{message}}      
-            </div>  
-          {% endfor %}
-        {% endif %}  
-      </div>
-        <h2> Notice Board </h2>
-	    <table class="table">
-	    	<thead class="thead-dark">
-	    		<tr>
-	    			<th>Subject</th>
-	    			<th>Posted By</th>
-	    			<th>Time</th>
-	    		</tr>
-	    	</thead>
-	      <tbody>
-	      	{% if notices %}
-		        {% for notice in notices %}
-		          <tr>
-		            <td>
-		              <a href="{% url 'notice-detail' notice.id %}"> {{ notice.title }} </a> <!-- href teacher Profile Info-->
-		            </td>
-		            <td>
-		              <a href="#">{{ notice.created_by}} </a>    <!-- href teacher Profile Info-->
-		        	</td>
-		            <td>{{ notice.created_at }}</td>
-		          </tr>
-		        {% endfor %}
-		      </tbody>
-		     {% endif %}
-	    </table>
-      
-      {% if user.user_type != "student" %}
-        <div container="container">
-          <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'notice-create' %}"> Post New Notice</a>
-        </div>
-      {% endif %}
+        {% include "navbar profile teacher.html" %}
+     {% endif %}
     
+    <div class="container emp-profile">
+        <div class="container">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{message.tags}}">
+                  {{message}}      
+                </div>  
+              {% endfor %}
+            {% endif %}  
+        </div>
+        <div class="container">
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'notice-view' %}"> View All Notices</a>
+        </div>
+        <div class="card mb-2 mt-5">
+            <div class="card-body p-3">
       
-		 {% if is_paginated %}
-		    <nav aria-label="Topics pagination" class="my-4">
-		      <ul class="pagination justify-content-center">
-		        {% if page_obj.has_previous %}
-		          <li class="page-item">
-		            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-		          </li>
-		        {% else %}
-		          <li class="page-item disabled">
-		            <span class="page-link">Previous</span>
-		          </li>
-		        {% endif %}
-
-		        {% for page_num in paginator.page_range %}
-		          {% if page_obj.number == page_num %}
-		            <li class="page-item active">
-		              <span class="page-link">
-		                {{ page_num }}
-		                <span class="sr-only">(current)</span>
-		              </span>
-		            </li>
-		          {% else %}
-		            <li class="page-item">
-		              <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-		            </li>
-		          {% endif %}
-		        {% endfor %}
-
-		        {% if page_obj.has_next %}
-		          <li class="page-item">
-		            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-		          </li>
-		        {% else %}
-		          <li class="page-item disabled">
-		            <span class="page-link">Next</span>
-		          </li>
-		        {% endif %}
-		      </ul>
-		    </nav>
-		  {% endif %}
+              <h3 class="p-3">{{ object.title }}</h3>
+      
+              <div class="row mb-3 p-3">
+                <div class="col-6">
+                  <strong class="text-muted">By: {{ object.created_by }}</strong>
+                </div>
+                <div class="col-6 text-right">
+                  <small class="text-muted">Posted On: {{ object.created_at }}</small>
+                </div>
+              </div>
+      
+              <div class="p-3" style="white-space: pre-wrap;">{{ notice.get_message_as_markdown }}</div>
+            </div>
+        </div>
+        
     </div>
    
 <br><br><br><br>

@@ -34,6 +34,8 @@ urlpatterns = [
     path('filter_user_type', views.filter_user_type, name='filter_user_type'),
     path('notices', views.NoticeListView.as_view(), name='notice-view'),
     path('notice/create',views.NoticeCreateView.as_view(),name='notice-create'),
+    path('notice/<int:pk>',views.NoticeDetailView.as_view(),name='notice-detail'),
+
 
     # path('<int:id>/phd/',views.phd,name='phd'),
 ]

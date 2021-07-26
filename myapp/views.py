@@ -693,3 +693,10 @@ class NoticeCreateView(SuccessMessageMixin,LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         form.instance.created_by= self.request.user
         return super().form_valid(form)
+
+
+class NoticeDetailView(DetailView):
+    model = Notice
+    template_name='notice_detail.html'
+
+    #invoke blog/post_detail.html   <app_name>/ <model_name>_<ViewType>.html
