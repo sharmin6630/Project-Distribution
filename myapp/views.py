@@ -680,3 +680,16 @@ class NoticeListView(ListView):
     template_name='notice_view.html'
     context_object_name='notices'
     ordering=['-created_at']
+
+
+class NoticeCreateView(SuccessMessageMixin,LoginRequiredMixin,CreateView):
+    model = Notice
+    #invoke blog/post_create.html   <app_name>/ <model_name>_<ViewType>.html
+    fields = ['title','message']
+    template_name='notice_form.html'
+    login_url='/'
+    success_message = "Notice is Created Successfully"
+
+    def form_valid(self, form):
+        form.instance.created_by= self.request.user
+        return super().form_valid(form)
