@@ -229,13 +229,13 @@ body{
         </div>
         {% if user.user_type == "teacher" %}
             <div class="container">
-                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="#"> Update</a>
+                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'notice-update' object.id %}"> Update</a>
             </div> 
         {% endif %}
 
         {% if user.user_type == "admin" %}
             <div class="container">
-                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="#"> Update</a>
+                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'notice-update' object.id %}"> Update</a>
             </div> 
         {% endif %}
     </div>
