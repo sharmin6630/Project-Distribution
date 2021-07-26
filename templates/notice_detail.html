@@ -227,7 +227,17 @@ body{
               <div class="p-3" style="white-space: pre-wrap;">{{ notice.get_message_as_markdown }}</div>
             </div>
         </div>
-        
+        {% if user.user_type == "teacher" %}
+            <div class="container">
+                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="#"> Update</a>
+            </div> 
+        {% endif %}
+
+        {% if user.user_type == "admin" %}
+            <div class="container">
+                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="#"> Update</a>
+            </div> 
+        {% endif %}
     </div>
    
 <br><br><br><br>
