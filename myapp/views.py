@@ -712,3 +712,19 @@ class NoticeUpdateView(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
     def form_valid(self, form):
         form.instance.created_by= self.request.user
         return super().form_valid(form)
+
+class NoticeDeleteView(SuccessMessageMixin,LoginRequiredMixin, DeleteView):
+    model = Notice
+    #invoke blog/post_create.html   <app_name>/ <model_name>_<ViewType>.html
+    fields = ['title','content']
+    login_url='/'
+    template_name='notice_confirm_delete.html'
+    success_message = "Notice is Deleted Successfully"
+    success_url='/notices'
+    def form_valid(self, form):
+        form.instance.author= self.request.user
+        return super().form_valid(form)
+        
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(NoticeDeleteView, self).delete(request, *args, **kwargs)

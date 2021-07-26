@@ -36,6 +36,7 @@ urlpatterns = [
     path('notice/create',views.NoticeCreateView.as_view(),name='notice-create'),
     path('notice/<int:pk>',views.NoticeDetailView.as_view(),name='notice-detail'),
     path('notice/<int:pk>/update',views.NoticeUpdateView.as_view(),name='notice-update'),
+    path('notice/<int:pk>/delete',views.NoticeDeleteView.as_view(),name='notice-delete'),
     # path('<int:id>/phd/',views.phd,name='phd'),
 ]
 
