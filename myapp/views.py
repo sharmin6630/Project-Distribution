@@ -700,3 +700,15 @@ class NoticeDetailView(DetailView):
     template_name='notice_detail.html'
 
     #invoke blog/post_detail.html   <app_name>/ <model_name>_<ViewType>.html
+
+class NoticeUpdateView(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
+    model = Notice
+    #invoke blog/post_create.html   <app_name>/ <model_name>_<ViewType>.html
+    fields = ['title','message']
+    template_name='notice_form.html'
+    success_message = "Notice is Updated Successfully"
+
+    login_url='/'
+    def form_valid(self, form):
+        form.instance.created_by= self.request.user
+        return super().form_valid(form)
