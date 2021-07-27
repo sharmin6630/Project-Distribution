@@ -642,38 +642,38 @@ def pie_chart(request):
 
 
 def line_chart(request):
-    data=[]
-    labels=["Major_CGPA >= 3.5 ", "Total_CGPA >= 3.5","Both_CGPA >= 3.5", "Both_CGPA <= 2"]
-    queryset = Student_data.objects.all()
-    count_ma=0
-    count_mi=0
-    count=0
-    cnt_2 = 0
-    for c in queryset:
-        if c.major_cgpa>=3.5:
-            count_ma=count_ma+1
-        if c.total_cgpa>=3.5:
-            count_mi=count_mi+1
-        
-        if c.major_cgpa>=3.5 and c.total_cgpa>=3.5:
-            count=count+1
-        if c.major_cgpa < 2 and c.total_cgpa < 2:
-            cnt_2 += 1
-    data.append(count_ma)
-    data.append(count_mi)
-    data.append(count)
-    data.append(cnt_2)
-    
-    return JsonResponse(data={
-        'labels': labels,
-        'data': data,
-    })
-
-def home1(request):
     if request.user.is_authenticated and request.user.user_type=="admin":
-        return render(request, 'home1.html')
+        input_cgpa=3.5
+        data=[]
+        labels=["Major_CGPA >= "+str(input_cgpa), "Total_CGPA >= "+str(input_cgpa),"Both_CGPA >= "+str(input_cgpa), "Both_CGPA <= 2"]
+        queryset = Student_data.objects.all()
+        count_ma=0
+        count_mi=0
+        count=0
+        cnt_2 = 0
+        for c in queryset:
+            if c.major_cgpa>=input_cgpa:
+                count_ma=count_ma+1
+                
+            if c.total_cgpa>=input_cgpa:
+                count_mi=count_mi+1
+            
+            if c.major_cgpa>=input_cgpa and c.total_cgpa>=input_cgpa:
+                count=count+1
+            if c.major_cgpa < 2 and c.total_cgpa < 2:
+                cnt_2 += 1
+        data.append(count_ma)
+        data.append(count_mi)
+        data.append(count)
+        data.append(cnt_2)
+        
+        return render(request, 'home1.html', {
+                    'labels': labels,
+                    'data': data,
+                })
     else:
         return HttpResponseRedirect('not_allowed')  
+
 
 class NoticeListView(ListView):
     model = Notice   
