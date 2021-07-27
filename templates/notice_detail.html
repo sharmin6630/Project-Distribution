@@ -228,10 +228,12 @@ body{
             </div>
         </div>
         {% if user.user_type == "teacher" %}
-            <div class="container">
-                <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'notice-update' object.id %}"> Update</a>
-                <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'notice-delete' object.id %}"> Delete</a>
-            </div> 
+            {% if object.created_by == user %}
+                <div class="container">
+                    <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'notice-update' object.id %}"> Update</a>
+                    <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'notice-delete' object.id %}"> Delete</a>
+                </div>
+            {% endif %}
         {% endif %}
 
         {% if user.user_type == "admin" %}
