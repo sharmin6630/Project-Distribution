@@ -644,6 +644,18 @@ def pie_chart(request):
 def line_chart(request):
     if request.user.is_authenticated and request.user.user_type=="admin":
         input_cgpa=3.5
+
+        if request.method == 'POST':
+            # create a form instance and populate it with data from the request:
+            form = CGPAForm(request.POST)
+            # check whether it's valid:
+            if form.is_valid():
+                input_cgpa=float(form.cleaned_data['cgpa'])
+                   
+        # if a GET (or any other method) we'll create a blank form
+        else:
+            form = CGPAForm()
+            
         data=[]
         labels=["Major_CGPA >= "+str(input_cgpa), "Total_CGPA >= "+str(input_cgpa),"Both_CGPA >= "+str(input_cgpa), "Both_CGPA <= 2"]
         queryset = Student_data.objects.all()
@@ -668,6 +680,7 @@ def line_chart(request):
         data.append(cnt_2)
         
         return render(request, 'home1.html', {
+                    'form': form,
                     'labels': labels,
                     'data': data,
                 })

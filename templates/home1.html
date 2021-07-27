@@ -37,4 +37,12 @@
 
   </script>
 
+  <div class="container emp-profile">
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit" value="Generate Plot">
+    </form>
+  </div>
+
 {% endblock %}
