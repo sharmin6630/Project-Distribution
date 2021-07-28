@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     password1 = models.CharField(null=True, blank=True, default=None, max_length=55)
 
     def __str__(self):
-        return self.email
+        return self.first_name+" "+self.last_name
 
 class Student_data(models.Model):
     user_id = models.ForeignKey(CustomUser, default=1, on_delete=models.CASCADE)
