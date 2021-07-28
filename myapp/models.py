@@ -102,7 +102,7 @@ class compact_Form(models.Model):
 class Notice(models.Model):
 	title = models.CharField(max_length=100)
 	message = models.TextField(max_length=2000)
-	created_at = models.DateTimeField(auto_now_add=True)
+	created_at = models.DateTimeField(auto_now=True)
 	created_by = models.ForeignKey(CustomUser, related_name='posts', on_delete=models.DO_NOTHING)
     
 	def __str__(self):

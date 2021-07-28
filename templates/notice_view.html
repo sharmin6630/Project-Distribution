@@ -211,7 +211,7 @@ body{
 	    		<tr>
 	    			<th>Subject</th>
 	    			<th>Posted By</th>
-	    			<th>Time</th>
+	    			<th>Last Update Time</th>
 	    		</tr>
 	    	</thead>
 	      <tbody>
@@ -222,7 +222,7 @@ body{
 		              <a href="{% url 'notice-detail' notice.id %}"> {{ notice.title }} </a> <!-- href teacher Profile Info-->
 		            </td>
 		            <td>
-		              <a href="#">{{ notice.created_by}} </a>    <!-- href teacher Profile Info-->
+		              {{ notice.created_by}}    <!-- href teacher Profile Info-->
 		        	</td>
 		            <td>{{ notice.created_at }}</td>
 		          </tr>
