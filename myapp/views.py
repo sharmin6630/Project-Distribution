@@ -606,9 +606,21 @@ def form_approve(request, id):
 
 def pie_chart(request):
     if request.user.is_authenticated and request.user.user_type=="admin":
+        input_cgpa=3.5
+        if request.method == 'POST':
+            # create a form instance and populate it with data from the request:
+            form = CGPAForm(request.POST)
+            # check whether it's valid:
+            if form.is_valid():
+                input_cgpa=float(form.cleaned_data['cgpa'])
+                
+        # if a GET (or any other method) we'll create a blank form
+        else:
+            form = CGPAForm()
+
         print("pie_chart")
         data=[]
-        labels=["Thesis", "project"]
+        labels=["Thesis ( Both_CGPA >= "+str(input_cgpa)+" )", "Project"]
         queryset = Student_data.objects.all()
         count_ma=0
         count_mi=0
@@ -617,13 +629,13 @@ def pie_chart(request):
         
         for c in queryset:
             total=total+1
-            if c.major_cgpa>=3.5:
+            if c.major_cgpa>=input_cgpa:
                 count_ma=count_ma+1
                 
-            if c.total_cgpa>=3.5:
+            if c.total_cgpa>=input_cgpa:
                 count_mi=count_mi+1
 
-            if c.major_cgpa>=3.5 and c.total_cgpa>=3.5:
+            if c.major_cgpa>=input_cgpa and c.total_cgpa>=input_cgpa:
                 count=count+1
 
         thesis= count
@@ -635,7 +647,9 @@ def pie_chart(request):
         return render(request, 'pie_chart.html', {
             'labels': labels,
             'data': data,
+            'form': form,
         })
+
     else:
         return HttpResponseRedirect('not_allowed')
 
