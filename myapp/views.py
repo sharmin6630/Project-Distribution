@@ -605,6 +605,9 @@ def form_approve(request, id):
 
 
 def pie_chart(request):
+    '''
+        a pie chart containing the information of the number of students who can take thesis and project is shown to admins
+    '''
     if request.user.is_authenticated and request.user.user_type=="admin":
         input_cgpa=3.5
         if request.method == 'POST':
@@ -656,6 +659,9 @@ def pie_chart(request):
 
 
 def line_chart(request):
+    '''
+        a bar chart containing the summarized information of student's CGPA is shown to admins
+    '''
     if request.user.is_authenticated and request.user.user_type=="admin":
         input_cgpa=3.5
 
@@ -703,6 +709,9 @@ def line_chart(request):
 
 
 class NoticeListView(ListView):
+    '''
+        users can see all the notices in a tabular format. Title, Created by, and latest update time will be shown
+    '''
     model = Notice   
     template_name='notice_view.html'
     context_object_name='notices'
@@ -710,6 +719,9 @@ class NoticeListView(ListView):
 
 
 class NoticeCreateView(SuccessMessageMixin,LoginRequiredMixin,CreateView):
+    '''
+        Teacher and Admin can post new notice
+    '''
     model = Notice
     #invoke blog/post_create.html   <app_name>/ <model_name>_<ViewType>.html
     fields = ['title','message']
@@ -723,12 +735,18 @@ class NoticeCreateView(SuccessMessageMixin,LoginRequiredMixin,CreateView):
 
 
 class NoticeDetailView(DetailView):
+    '''
+        detailed view page of a notice
+    '''
     model = Notice
     template_name='notice_detail.html'
 
     #invoke blog/post_detail.html   <app_name>/ <model_name>_<ViewType>.html
 
 class NoticeUpdateView(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
+    '''
+        Teacher and admin can update any existing notice
+    '''
     model = Notice
     #invoke blog/post_create.html   <app_name>/ <model_name>_<ViewType>.html
     fields = ['title','message']
@@ -741,6 +759,9 @@ class NoticeUpdateView(SuccessMessageMixin,LoginRequiredMixin,UpdateView):
         return super().form_valid(form)
 
 class NoticeDeleteView(SuccessMessageMixin,LoginRequiredMixin, DeleteView):
+    '''
+        Teacher and admin can delete any existing notice
+    '''
     model = Notice
     #invoke blog/post_create.html   <app_name>/ <model_name>_<ViewType>.html
     fields = ['title','content']
