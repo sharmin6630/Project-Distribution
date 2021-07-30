@@ -21,3 +21,5 @@ The project is using Django framework and sqlite3 at the backend.
 - Student can create and update their profile, fill thesis/project form and give the preference list, see teachers list and view their profile
 - Teacher can create and update their profile
 - Admin can view filled forms by students in a table, assign supervisors, perform queries based on CGPA, see summary charts of students' cgpa, total students, etc.
+- Admin can see summary charts of student's CGPA presented in a bar chart and see the the number of students who can take project and thesis in a pie-chart.
+- There is a noticeboard where all the notices posted by any teacher or admin will be displayed. All users can view the noticeboard with date of creation and author's  information. Teacher and admin can also update or delete any existing notice.
