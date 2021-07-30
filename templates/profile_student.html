@@ -209,7 +209,7 @@ color: #0099CC
                       </div> -->
                   </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div>
                     {% for message in messages %}
                     <h6 text-align="center" style="color:red">{{message}}</h6>
@@ -234,11 +234,11 @@ color: #0099CC
                       </ul>
                   </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-4">
                 <!-- <button type="submit" class="btn btn-outline-primary"><a href="{% url 'student_update' %}">Update</a></button> -->
                 <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="student_update" role="button">Update</a>
-                    <a class="btn btn-primary btn-lg mt-2" href="{% url 'notice-view' %}" role="button" >View NoticeBoard</a>
+                    <a class="btn btn-primary btn-sm" href="student_update" role="button">Update</a>
+                    <a class="btn btn-primary btn-sm" href="{% url 'notice-view' %}" role="button" >View NoticeBoard</a>
 
                 </p>
               </div>

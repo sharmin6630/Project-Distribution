@@ -60,6 +60,10 @@ def register(request):
                 user.set_password(password)
                 user.is_active = True
                 user.save()
+                if user_type == "teacher":
+                    t_id = CustomUser.objects.get(username=username)
+                    tc_up = Teachers_data(user_id_id=t_id.id)
+                    tc_up.save()
                 return HttpResponseRedirect('login')
         else:
             messages.info(request, 'password doesn\'t match')
@@ -219,9 +223,18 @@ def form_output(request):
     if request.user.is_authenticated and request.user.user_type=="admin":
         all_form = compact_Form.objects.all()
         all_teacher = CustomUser.objects.filter(user_type="teacher")
-        return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
+        td = []
+        for x in all_teacher:
+            y = None
+            exist = Teachers_data.objects.filter(user_id_id=x.id).count()
+            if exist != 0:
+                y = Teachers_data.objects.get(user_id_id=x.id)
+                data = teamcount(y.user_id_id, x.username, y.assigned_teams)
+                td.append(data)
+        return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': td})
     else:
         return HttpResponseRedirect('not_allowed')
+
 
 def filter_form(request):
     '''
@@ -237,7 +250,15 @@ def filter_form(request):
                 if x.student_1_majorcg >= query and x.student_2_majorcg >= query:
                     all_form.append(x)
             all_teacher = CustomUser.objects.filter(user_type="teacher")
-            return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': all_teacher})
+            td = []
+        for x in all_teacher:
+            y = None
+            exist = Teachers_data.objects.filter(user_id_id=x.id).count()
+            if exist != 0:
+                y = Teachers_data.objects.get(user_id_id=x.id)
+                data = teamcount(y.user_id_id, x.username, y.assigned_teams)
+                td.append(data)
+        return render(request,'form_table_admin compact.html', {'all_form': all_form, 'all_teacher': td})
     else:
         return HttpResponseRedirect('not_allowed')
 
@@ -586,6 +607,23 @@ def form_approve(request, id):
             if sup == 0:
                 return render(request, 'login.html')
             sup = CustomUser.objects.get(id=assigned_supervisor_id)
+            if form_record.assigned_supervisor_id == None:
+                new_teacher = Teachers_data.objects.get(user_id_id=assigned_supervisor_id)
+                new_count = new_teacher.assigned_teams
+                new_teacher.assigned_teams = new_count + 1
+                new_teacher.save()
+
+            elif form_record.assigned_supervisor_id != assigned_supervisor_id:
+                prev_teacher = Teachers_data.objects.get(user_id_id=form_record.assigned_supervisor_id)
+                pre_count = prev_teacher.assigned_teams
+                prev_teacher.assigned_teams = pre_count - 1
+                print(pre_count-1, prev_teacher.assigned_teams)
+                prev_teacher.save()
+                new_teacher = Teachers_data.objects.get(user_id_id=assigned_supervisor_id)
+                new_count = new_teacher.assigned_teams
+                new_teacher.assigned_teams = new_count + 1
+                new_teacher.save()
+
             assigned_supervisor = sup.username
             form_record.assigned_supervisor_id = assigned_supervisor_id
             form_record.assigned_course = assigned_course

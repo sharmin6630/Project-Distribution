@@ -44,6 +44,8 @@ class Teachers_data(models.Model):
     photos = models.FileField(null=True,blank=True,default="teacher/default.png",upload_to='teacher/')
     sust_id = models.CharField(null=True, blank=True, default=None, max_length=55)
     scholar = models.CharField(null=True, blank=True, default=None, max_length=55)
+    assigned_teams = models.IntegerField(null=True,blank=True,default=0)
+
 
 class Teacher_edu(models.Model):
     # edu_id=models.AutoField(null=False,blank=False,default=None,primary_key=True)
@@ -98,6 +100,15 @@ class compact_Form(models.Model):
     assigned_supervisor = models.CharField(null=True, blank=True, default=None, max_length=55)
     assigned_supervisor_id = models.CharField(null=True, blank=True, default=None, max_length=55)
     action = models.CharField(null=True, blank=True, default="Save", max_length=55)
+
+class teamcount():
+    user_id_id = models.CharField(default=None, name="user_id_id", max_length=500)
+    username = models.CharField(default=None, name="username", max_length=500)
+    teamcount = models.CharField(default=None, name="teamcount", max_length=500)
+    def __init__(self, user_id_id, username, teamcount):  
+        self.user_id_id = user_id_id
+        self.username = username
+        self.teamcount = teamcount
 
 class Notice(models.Model):
 	title = models.CharField(max_length=100)

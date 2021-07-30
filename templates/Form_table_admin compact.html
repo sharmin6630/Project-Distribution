@@ -157,7 +157,7 @@ body{
             <th scope="col" data-sort="string">Course <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
             <th scope="col" data-sort="string">Topic <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
             <th scope="col" data-sort="string">Supervisor <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
-            <th scope="col" data-sort="string">Co-Supervisor <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
+            <th scope="col" data-sort="string">External <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
             <th scope="col" class="ignore_col" >Update </th>
             <th scope="col" class="ignore_col" data-sort="string">Action <i class="sort-indicator" aria-hidden="true"></i><span class="sr-only"></span></th>
         </tr>
@@ -196,26 +196,23 @@ body{
       {% csrf_token %}
       <!-- Assign Select -->
       <td id="select_supervisor">
-          <select class="form-control form-control-sm"  style="width:100px;height: 25px;" name="assigned_course" autofocus required> 
+          <select class="form-control form-control-sm"  style="width:120px;height: 25px;" name="assigned_course" autofocus required> 
               <option value="" disabled selected>course</option>
               <option value="Thesis">Thesis</option>
               <option value="Project">Project</option>
           </select>
-          <select class="form-control form-control-sm" style="width:100px; height: 25px;" name="assigned_supervisor_id" autofocus required> 
+          <select class="form-control form-control-sm" style="width:120px; height: 25px;" name="assigned_supervisor_id" autofocus required> 
             <option value="" disabled selected>supervisor</option>
             {% for teacher in all_teacher %}
-            <option value={{teacher.id}}>{{teacher.username}}</option>
-            <!-- <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option> -->
+            {% if teacher.teamcount < 4 %}
+            <option value={{teacher.user_id_id}}>{{teacher.username}} ({{teacher.teamcount}})</option>
+            {% endif %}
             {% endfor %}
           </select>
-          <select class="form-control form-control-sm" style="width:100px; height: 25px;" name="assigned_external" autofocus required> 
-              <option value="" disabled selected>co-supervisor</option>
+          <select class="form-control form-control-sm" style="width:120px; height: 25px;" name="assigned_external" autofocus required> 
+              <option value="" disabled selected>external</option>
               <option value="None">N/A</option>
               <option value="{{record.external}}">{{record.external}}</option>
-              {% for teacher in all_teacher %}
-              <option value={{teacher.username}}>{{teacher.username}}</option>
-              <!-- <option value={{teacher.id}}>{{teacher.first_name}} {{teacher.last_name}}</option> -->
-              {% endfor %}
           </select>
       </td>  
       <td id="saveaction">
@@ -236,6 +233,7 @@ body{
           &emsp;  Choice_External: <span>{{record.external}}</span></p>
         <p><b>Topic Description:</b> <span>{{record.description}}</span></p>
     </td>
+ 
     </tr>
   </tbody>
   {% endfor %}
