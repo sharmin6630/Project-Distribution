@@ -19,7 +19,11 @@ The project is using Django framework and sqlite3 at the backend.
 ### Functionalities
 
 - Student can create and update their profile, fill thesis/project form and give the preference list, see teachers list and view their profile
+- Student can give 5 unique supervisor preference choice
 - Teacher can create and update their profile
-- Admin can view filled forms by students in a table, assign supervisors, perform queries based on CGPA, see summary charts of students' cgpa, total students, etc.
+- Admin can view filled forms by students in a table, assign supervisors, thesis/project perform queries based on CGPA.
+- By expanding rows of the table additional information about the team is shown. The table can be sorted according to column data.
+- The table data can be exported as a .CSV file.
+- Admin can assign a supervisor to maximum 4 teams.
 - Admin can see summary charts of student's CGPA presented in a bar chart and see the the number of students who can take project and thesis in a pie-chart.
 - There is a noticeboard where all the notices posted by any teacher or admin will be displayed. All users can view the noticeboard with date of creation and author's  information. Teacher and admin can also update or delete any existing notice.
