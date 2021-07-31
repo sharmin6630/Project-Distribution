@@ -206,6 +206,8 @@ body{
             {% for teacher in all_teacher %}
             {% if teacher.teamcount < 4 %}
             <option value={{teacher.user_id_id}}>{{teacher.username}} ({{teacher.teamcount}})</option>
+            {% else %}
+            <option value={{teacher.user_id_id}} disabled>{{teacher.username}} ({{teacher.teamcount}})</option>
             {% endif %}
             {% endfor %}
           </select>
