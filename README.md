@@ -26,4 +26,5 @@ The project is using Django framework and sqlite3 at the backend.
 - The table data can be exported as a .CSV file.
 - Admin can assign a supervisor to maximum 4 teams.
 - Admin can see summary charts of student's CGPA presented in a bar chart and see the the number of students who can take project and thesis in a pie-chart.
+- Admin can also see all student and teachers and view by usertype (student, teacher)
 - There is a noticeboard where all the notices posted by any teacher or admin will be displayed. All users can view the noticeboard with date of creation and author's  information. Teacher and admin can also update or delete any existing notice.
