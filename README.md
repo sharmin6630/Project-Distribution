@@ -10,7 +10,7 @@ The project is using Django framework and sqlite3 at the backend.
 
 - clone this repo: git clone https://github.com/CSE-446-2016/Project-Distribution-G33.git
 - create a virtual environment in the project folder
-- install the packages from requirement.txt: pip install -r requirement.txt
+- install the packages from requirement.txt: pip install -r requirements.txt
 - connect backend by: python manage.py migrate
 - run: python manage.py runserver
 - open localhost (http://localhost:8000) to view in the browser
