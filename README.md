@@ -1,6 +1,6 @@
 # Project-Distribution-G33
 
-SUST CSE Thesis/Project Distribution System is a web project where student can give submit their preference supervisors list to authorities. Then, authorities can assign supervisor to student groups.
+SUST CSE Thesis/Project Distribution System is a web project where student can submit their preference supervisors list to authorities. Then, authorities can assign supervisor to student groups.
 
 ## Project
 
